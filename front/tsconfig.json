@@ -1,0 +1,20 @@
+{
+  "extends": "@quasar/app-vite/tsconfig-preset",
+  "compilerOptions": {
+    "target": "es2019",
+    "module": "esnext",
+    "strict": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "lib": ["es2019", "dom"],
+    "baseUrl": ".",
+    "downlevelIteration": true,
+    "useUnknownInCatchVariables": false,
+    "jsx": "react"
+  },
+  "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.vue", "test/**/*.ts", "src/shims-vue.d. ts"],
+  "exclude": [".quasar", "dist", "node_modules"]
+}
