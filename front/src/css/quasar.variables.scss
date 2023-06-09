@@ -11,15 +11,98 @@
 // It's highly recommended to change the default colors
 // to match your app's branding.
 // Tip: Use the "Theme Builder" on Quasar's documentation website.
+@import url('https://fonts.googleapis.com/css2?family=Merriweather&display=swap');
 
-$primary   : #1976D2;
-$secondary : #26A69A;
-$accent    : #9C27B0;
+$primary: #161c3d;
+$secondary: #454d79;
+$accent: #cc33ae;
 
-$dark      : #1D1D1D;
-$dark-page : #121212;
+$dark: #1d1d1d;
+$dark-page: #121212;
 
-$positive  : #21BA45;
-$negative  : #C10015;
-$info      : #31CCEC;
-$warning   : #F2C037;
+$positive: #00c42b;
+$negative: #f60c36;
+$info: #60b0e2;
+$warning: #ff9900;
+
+$map-colors: (
+  'primary': (
+    '50': #444963,
+    '100': #2d3250,
+  ),
+  'secondary': (
+    '50': #a2a6bc,
+    '100': #8f94ae,
+    '200': #7c82a1,
+    '300': #6a7093,
+    '400': #575e86,
+  ),
+  'accent': (
+    '50': #e599d6,
+    '100': #e084ce,
+    '200': #db70c6,
+    '300': #d65bbe,
+    '400': #d147b6,
+  ),
+  'neutral': (
+    'default': #6b7280,
+    '50': #fafafa,
+    '100': #f4f5f6,
+    '200': #e9ebed,
+    '300': #d3d5da,
+    '400': #949ba6,
+  ),
+  'info': (
+    '50': #c5e9ff,
+    '100': #82d1f9,
+  ),
+  'positive': (
+    '50': #d9f6df,
+    '100': #65dc7f,
+  ),
+  'negative': (
+    '50': #fedbe1,
+    '100': #ff5a64,
+  ),
+  'warning': (
+    '50': #fff0d9,
+    '100': #ffc46b,
+  ),
+);
+
+@mixin colorParser($color, $map-colors) {
+  @each $shade, $value in $map-colors {
+    @if $shade == 'default' {
+      .text-#{$color} {
+        color: map-get($map-colors, $shade) !important;
+      }
+      .bg-#{$color} {
+        background: map-get($map-colors, $shade) !important;
+      }
+    } @else {
+      $color-var-name: '#{$color}-#{$shade}';
+      .text-#{$color}-#{$shade} {
+        color: map-get($map-colors, $shade) !important;
+      }
+      .bg-#{$color}-#{$shade} {
+        background: map-get($map-colors, $shade) !important;
+      }
+    }
+  }
+}
+
+@each $color, $value in $map-colors {
+  @include colorParser($color, $value);
+}
+
+$generic-border-radius: 6px;
+$generic-border-radius-sm: 10px;
+$generic-border-radius-md: 16px;
+$generic-border-radius-lg: 18px;
+$generic-border-radius-xl: 28px;
+
+$heading-font-family: 'Merriweather', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu,
+  Cantarell, 'Helvetica Neue', sans-serif;
+
+$typography-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell,
+  'Helvetica Neue', sans-serif;
