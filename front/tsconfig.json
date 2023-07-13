@@ -13,6 +13,15 @@
     "baseUrl": ".",
     "downlevelIteration": true,
     "useUnknownInCatchVariables": false,
+    "paths": {
+      "src": ["/src"],
+      "components": ["src/components"],
+      "pages": ["src/pages"],
+      "assets": ["src/assets"],
+      "boot": ["src/boot"],
+      "stores/*": ["src/stores/*"],
+      "app": ["/"]
+    },
     "jsx": "react"
   },
   "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.vue", "test/**/*.ts", "src/shims-vue.d. ts"],
