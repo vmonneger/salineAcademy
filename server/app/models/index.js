@@ -53,7 +53,7 @@ db.cours_video = require('./cours/cours-video.model')(sequelize, Sequelize);
 
 
 // User's relations
-db.abonnement.hasMany(db.users, {as: "users"})
+db.abonnement.hasMany(db.users, {as: "users", allowNull: true})
 db.role.hasMany(db.users, {as: "users"})
 
 db.users.belongsTo(db.abonnement);
@@ -112,11 +112,6 @@ db.cours_master.belongsTo(db.master)
 db.cours_sousTitre.belongsTo(db.sous_titre)
 db.cours_student.belongsTo(db.users)
 db.cours_video.belongsTo(db.video)
-
-
-
-
-
 
 
 

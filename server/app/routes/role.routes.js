@@ -1,5 +1,4 @@
-const { authJwt } = require('../Middleware');
-const controller = require('../controllers/user.controller');
+const controller = require('../controllers/roles/role.controller');
 
 module.exports = function(app) {
     app.use(function(req, res, next) {
@@ -10,5 +9,6 @@ module.exports = function(app) {
         next();
     });
 
-    app.get('/api/test/all', controller.allAcces);
+    app.post('/api/role/create', controller.createRole)
+    app.post('/api/role/findOne', controller.findOneRole)
 }
