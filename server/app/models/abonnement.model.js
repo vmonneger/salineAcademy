@@ -1,19 +1,17 @@
 module.exports = (sequelize, Sequelize) => {
     const Abonnement = sequelize.define("abonnement", {
-        id: {
-            type: Sequelize.INTEGER,
-            primaryKey: true,
-            allowNull: false,
-        },
         name: {
             type: Sequelize.STRING,
             allowNull: false
         },
-        duartion: {
+        limite_date: {
             type: Sequelize.INTEGER,
             allowNull: false
         },
-
+        monthly: {
+            type: Sequelize.BOOLEAN,
+            allowNull: false
+        }
     })
 
     return Abonnement

@@ -1,10 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
     const Video = sequelize.define("video", {
-        id: {
-            type: Sequelize.INTEGER,
-            primaryKey: true,
-            allowNull: false
-        },
         url: {
             type: Sequelize.STRING,
             allowNull: false,
