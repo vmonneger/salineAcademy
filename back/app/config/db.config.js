@@ -1,7 +1,7 @@
 module.exports = {
-    HOST: "localhost",
-    USER: 'root',
-    PASSWORD: 'root',
+    HOST: process.env.DB_HOST,
+    USER: process.env.DB_USER,
+    PASSWORD: process.env.DB_PASSWORD,
     DB: 'saline_academy',
     dialect: 'postgres',
     port: 5433,
