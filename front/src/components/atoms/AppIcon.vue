@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /**
- * @file Component for icon.
+ * @file Icon component.
  */
 import { computed } from 'vue'
 
@@ -27,7 +27,7 @@ const fillNumber = computed(() => {
     :name="props.name"
     :color="props.color"
     :class="`app-icon app-icon-${props.size} ${props.colorBackground ? `bg-${props.colorBackground} bg-icon` : ''}`"
-    class="material-symbols-outlined"
+    class="material-symbols-sharp"
   >
     <slot></slot>
   </q-icon>
