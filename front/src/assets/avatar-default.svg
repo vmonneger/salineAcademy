@@ -1,0 +1,9 @@
+<svg version="1.1" viewBox="0 0 900 900" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <rect width="900" height="900" ry="6.25" fill="#e4e6e7"/>
+  <g transform="translate(90.609 52.014)" fill="#aeb4b7">
+   <ellipse cx="361.83" cy="298.61" rx="141.57" ry="152.65"/>
+   <path d="m77.534 651.16a281.86 191.56 0 01281.86-191.56 281.86 191.56 0 01281.86 191.56h-281.86z"/>
+  </g>
+ </g>
+</svg>

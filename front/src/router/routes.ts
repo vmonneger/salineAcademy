@@ -1,6 +1,14 @@
+/**
+ * @file Routes.
+ */
 import { RouteRecordRaw } from 'vue-router'
 
 const routes: RouteRecordRaw[] = [
+  {
+    path: '/auth/logout',
+    name: 'Logout',
+    component: () => import('pages/LogoutPage.vue'),
+  },
   {
     path: '/',
     component: () => import('layouts/AppLayout.vue'),
@@ -11,7 +19,8 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'catalog',
         name: 'Catalog',
-        component: () => import('pages/IndexPage.vue'),
+        component: () => import('pages/CatalogPage.vue'),
+        meta: { title: 'Catalogue' },
       },
     ],
   },
