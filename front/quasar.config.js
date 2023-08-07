@@ -14,7 +14,7 @@
 
 const { configure } = require('quasar/wrappers')
 
-module.exports = configure(function (/* ctx */) {
+module.exports = configure(function (ctx) {
   return {
     eslint: {
       // fix: true,
@@ -74,7 +74,15 @@ module.exports = configure(function (/* ctx */) {
       // polyfillModulePreload: true,
       // distDir
 
-      // extendViteConf (viteConf) {},
+      // /**
+      //  * Tweak the default Vite config.
+      //  *
+      //  * @param {object} viteConf - Vite configuration.
+      //  */
+      extendViteConf(viteConf) {
+        viteConf.resolve.dedupe = ['vue']
+        if (ctx.dev) viteConf.server.hmr = { clientPort: 3000 }
+      },
       // viteVuePluginOptions: {},
 
       // vitePlugins: [
