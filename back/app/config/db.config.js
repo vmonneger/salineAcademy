@@ -2,9 +2,9 @@ module.exports = {
     HOST: process.env.DB_HOST,
     USER: process.env.DB_USER,
     PASSWORD: process.env.DB_PASSWORD,
-    DB: 'saline_academy',
+    DB: process.env.DB_NAME,
     dialect: 'postgres',
-    port: 5433,
+    port: process.env.DB_PORT,
     pool: {
         max: 5,
         min: 0,
