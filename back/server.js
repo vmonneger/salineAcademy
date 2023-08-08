@@ -1,7 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const dotenv = require('dotenv').config();
 const cookieParser = require('cookie-parser');
 
 const app = express();
@@ -21,13 +20,19 @@ app.use(cookieParser())
 
 const db = require("./app/models");
 
-db.sequelize.sync()
-.then(() => {
-    console.log('Synced db.');
-})
-.catch((err) => {
-    console.log("Failed to sync db: " + err.message)
-});
+const retrySync = () => {
+    db.sequelize.sync()
+        .then(() => {
+        console.log('Synced db.');
+        })
+        .catch((err) => {
+        console.log("Failed to sync db: " + err.message);
+        console.log('Retrying in 5 seconds...');
+        setTimeout(retrySync, 5000);
+        });
+};
+  
+retrySync();
     
 // simple route
 
@@ -43,7 +48,7 @@ require('./app/routes/user.routes')(app);
 require('./app/routes/role.routes')(app); 
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8082;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });
