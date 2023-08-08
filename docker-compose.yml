@@ -3,7 +3,7 @@ version: '3.9'
 services:
     back:
         container_name: back
-        restart: always
+        restart: unless-stopped
         env_file:
             - ./.env
         build: 
@@ -20,7 +20,7 @@ services:
             - db
     front:
         container_name: front
-        restart: always
+        restart: unless-stopped
         env_file:
             - ./.env
         build: ./front
@@ -34,7 +34,7 @@ services:
             - back
     db:
         container_name: db
-        restart: always
+        restart: unless-stopped
         image: postgres:15.3
         env_file:
             - ./.env
@@ -48,6 +48,19 @@ services:
             - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
         ports:
             - "${DB_PORT}:${DB_PORT}"
+    pgadmin:
+        container_name: pgadmin
+        image: dpage/pgadmin4
+        env_file:
+            - ./.env
+        environment:
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+        volumes:
+            - pgadmin:/var/lib/pgadmin
+        ports:
+            - "${PGADMIN_PORT}:80"
+        restart: unless-stopped
 
 volumes:
     db:
@@ -55,4 +68,6 @@ volumes:
     node_modules_back:
         driver: local
     node_modules_front:
+        driver: local
+    pgadmin: 
         driver: local
