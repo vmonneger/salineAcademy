@@ -8,7 +8,8 @@ services:
             - ./.env
         build: 
             context: ./back
-            target: dev
+            args:
+                NODE_ENV: DEV                       
         volumes:
             - node_modules_back:/app/node_modules
             - ./back:/app
@@ -18,12 +19,16 @@ services:
             DB_HOST: db       
         depends_on:
             - db
+
     front:
         container_name: front
         restart: unless-stopped
         env_file:
             - ./.env
-        build: ./front
+        build: 
+            context: ./front
+            args:
+                NODE_ENV: DEV
         volumes:
             - node_modules_front:/app/node_modules
             - ./front:/app
@@ -32,6 +37,7 @@ services:
             - "${CLIENT_PORT}:9000"
         depends_on:
             - back
+
     db:
         container_name: db
         restart: unless-stopped
@@ -48,6 +54,7 @@ services:
             - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
         ports:
             - "${DB_PORT}:${DB_PORT}"
+
     pgadmin:
         container_name: pgadmin
         image: dpage/pgadmin4
@@ -59,8 +66,21 @@ services:
         volumes:
             - pgadmin:/var/lib/pgadmin
         ports:
-            - "${PGADMIN_PORT}:80"
+            - "${PGADMIN_PORT}:4002"
         restart: unless-stopped
+
+    nginx:
+        image: nginx:latest
+        depends_on:
+            - front
+            - back
+        restart: always
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./nginx/conf/dev/:/etc/nginx/conf.d/:ro
+            - ./nginx/certs:/etc/nginx/ssl
 
 volumes:
     db:
