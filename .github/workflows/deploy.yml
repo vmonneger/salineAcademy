@@ -1,0 +1,27 @@
+name: "Deploy"
+
+on:
+  push:
+    branches: ["dev"]
+
+jobs:
+  build-push-gce:
+    name: Build and Push to GCE
+    runs-on: ubuntu-latest
+    env:
+      PROJECT_ID: 'bubbly-upgrade-39550'
+
+    steps:
+      - name: 'Checkout'
+        uses: 'actions/checkout@v3'
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@main'
+        with:
+          service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+          project_id: ${{ env.PROJECT_ID }}
+          export_default_credentials: true
+          version: '>= 363.0.0'
+
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
