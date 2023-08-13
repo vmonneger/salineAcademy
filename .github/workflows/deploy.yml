@@ -15,12 +15,15 @@ jobs:
       - name: 'Checkout'
         uses: 'actions/checkout@v3'
 
-      - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@main'
+      - name: 'Google Auth'
+        uses: 'google-github-actions/auth@v1'
         with:
-          service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
-          project_id: ${{ env.PROJECT_ID }}
-          export_default_credentials: true
+          workload_identity_provider: ${{ secrets.WORKLOAD_ID_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT }}
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+        with:
           version: '>= 363.0.0'
 
       - name: 'Use gcloud CLI'
