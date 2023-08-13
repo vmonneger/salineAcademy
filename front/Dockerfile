@@ -1,6 +1,8 @@
 ARG NODE_VERSION=18-alpine3.17
 
 FROM node:$NODE_VERSION
+ARG NODE_ENV
+ENV NODE_ENV=$NODE_ENV
 
 ENV PNPM_HOME       "/usr/local/share/pnpm"
 ENV PNPM_LOCAL      "/app/.pnpm-store"
@@ -21,7 +23,10 @@ RUN pnpm install -g @quasar/cli
 
 COPY . .
 
-EXPOSE 3000
+RUN if [ "$NODE_ENV" = "PROD" ]; then pnpm run build; fi
 
-CMD ["pnpm", "run", "dev"]
+EXPOSE 9000
+CMD if [ "$NODE_ENV" = "PROD" ]; then pnpm run serve; else pnpm run dev; fi
+
+
 

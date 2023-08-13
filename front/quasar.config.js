@@ -82,7 +82,6 @@ module.exports = configure(function (ctx) {
       //  */
       extendViteConf(viteConf) {
         viteConf.resolve.dedupe = ['vue']
-        if (ctx.dev) viteConf.server.hmr = { clientPort: 3000 }
       },
       // viteVuePluginOptions: {},
 

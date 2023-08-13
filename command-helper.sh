@@ -22,10 +22,14 @@ function docker_delete_all {
   docker volume rm salineacademy_node_modules_back
 }
 
+function docker_build_dev {
+  NODE_ENV=DEV docker-compose -f docker-compose-dev.yml up -d --build
+}
+
 function usage {
-  echo "Utilisation: $0 {docker-build|docker-db-clean|docker-delete-all}"
+  echo "Utilisation: $0 {docker-build-dev|docker-db-clean|docker-delete-all}"
   echo
-  echo "docker-build         - Build les images docker"
+  echo "docker-build-dev     - Build les images docker pour dev"
   echo "docker-db-clean      - Supprime la db et son volume"
   echo "docker-delete-all    - Supprime les containers et les volumes"
   exit 1
@@ -36,8 +40,8 @@ if [ -z "$1" ]; then
 fi
 
 case "$1" in
-  docker-build)
-    docker_build
+  docker-build-dev)
+    docker_build_dev
     ;;
   docker-db-clean)
     docker_delete_db

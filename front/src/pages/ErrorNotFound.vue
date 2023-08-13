@@ -23,5 +23,7 @@
 </template>
 
 <script setup lang="ts">
-
+/**
+ * @file 404 page.
+ */
 </script>
