@@ -58,7 +58,7 @@ jobs:
           PGADMIN_DEFAULT_EMAIL=${{ secrets.PGADMIN_DEFAULT_EMAIL }} \
           PGADMIN_DEFAULT_PASSWORD=${{ secrets.PGADMIN_DEFAULT_PASSWORD }} \
           PGADMIN_PORT=${{ secrets.PGADMIN_PORT }} \
-          docker-compose -f docker-compose-prod.yml build
+          docker-compose --no-env-file -f docker-compose-prod.yml build
           docker tag back:latest ghcr.io/${{ github.repository }}/back:latest
           docker tag front:latest ghcr.io/${{ github.repository }}/front:latest
           docker push ghcr.io/${{ github.repository }}/back:latest
