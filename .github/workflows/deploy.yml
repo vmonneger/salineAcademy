@@ -46,7 +46,19 @@ jobs:
 
       - name: Build and push back and front images using docker-compose
         run: |
-          NODE_ENV=prod docker-compose -f docker-compose-prod.yml build
+          NODE_ENV=prod \
+          AUTH_CONFIG=${{ secrets.AUTH_CONFIG }} \
+          API_PORT=${{ secrets.API_PORT }} \
+          CLIENT_PORT=${{ secrets.CLIENT_PORT }} \
+          DB_NAME=${{ secrets.DB_NAME }} \
+          DB_HOST=${{ secrets.DB_HOST }} \
+          DB_USER=${{ secrets.DB_USER }} \
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+          DB_PORT=${{ secrets.DB_PORT }} \
+          PGADMIN_DEFAULT_EMAIL=${{ secrets.PGADMIN_DEFAULT_EMAIL }} \
+          PGADMIN_DEFAULT_PASSWORD=${{ secrets.PGADMIN_DEFAULT_PASSWORD }} \
+          PGADMIN_PORT=${{ secrets.PGADMIN_PORT }} \
+          docker-compose -f docker-compose-prod.yml build
           docker tag back:latest ghcr.io/${{ github.repository }}/back:latest
           docker tag front:latest ghcr.io/${{ github.repository }}/front:latest
           docker push ghcr.io/${{ github.repository }}/back:latest
