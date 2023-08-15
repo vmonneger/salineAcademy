@@ -2,6 +2,7 @@ version: '3.9'
 
 services:
     back:
+        image: salineacademy-back
         container_name: back
         restart: unless-stopped
         env_file:
@@ -18,6 +19,7 @@ services:
             - db
 
     front:
+        image: salineacademy-front
         container_name: front
         restart: unless-stopped
         env_file:
