@@ -65,8 +65,8 @@ jobs:
           docker-compose -f docker-compose-prod.yml build
           docker tag back:latest ghcr.io/${{ env.REPO_NAME }}/salineacademy-back:latest
           docker tag front:latest ghcr.io/${{ env.REPO_NAME }}/salineacademy-front:latest
-          docker push ghcr.io/${{ env.REPO_NAME }}/back:latest
-          docker push ghcr.io/${{ env.REPO_NAME }}/front:latest
+          docker push ghcr.io/${{ env.REPO_NAME }}/salineacademy-back:latest
+          docker push ghcr.io/${{ env.REPO_NAME }}/salineacademy-front:latest
         
       - name: Clean up .env file
         if: always()
