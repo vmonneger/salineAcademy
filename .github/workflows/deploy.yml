@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PROJECT_ID: 'bubbly-upgrade-39550'
-      REPO_NAME: 'salineacademy'
+      NAMESPACE: 'vmonneger'
 
     steps:
       - name: 'Checkout'
@@ -63,10 +63,10 @@ jobs:
       - name: Build and push back and front images using docker-compose
         run: |
           docker-compose -f docker-compose-prod.yml build
-          docker tag salineacademy-back:latest ghcr.io/${{ env.REPO_NAME }}/salineacademy-back:latest
-          docker tag salineacademy-front:latest ghcr.io/${{ env.REPO_NAME }}/salineacademy-front:latest
-          docker push ghcr.io/${{ env.REPO_NAME }}/salineacademy-back:latest
-          docker push ghcr.io/${{ env.REPO_NAME }}/salineacademy-front:latest
+          docker tag salineacademy-back:latest ghcr.io/${{ env.NAMESPACE }}/salineacademy-back:latest
+          docker tag salineacademy-front:latest ghcr.io/${{ env.NAMESPACE }}/salineacademy-front:latest
+          docker push ghcr.io/${{ env.NAMESPACE }}/salineacademy-back:latest
+          docker push ghcr.io/${{ env.NAMESPACE }}/salineacademy-front:latest
         
       - name: Clean up .env file
         if: always()
