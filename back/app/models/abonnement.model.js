@@ -5,7 +5,7 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false
         },
         limite_date: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.DATE,
             allowNull: false
         },
         monthly: {
