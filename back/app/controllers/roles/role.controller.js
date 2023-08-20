@@ -39,7 +39,3 @@ exports.updateRole = (req, res) => {
 exports.deleteRole = (req, res) => {
 
 };
-
-exports.deleteAllRole = (req, res) => {
-
-};

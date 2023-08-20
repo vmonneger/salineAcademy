@@ -9,6 +9,7 @@ module.exports = function(app) {
         next();
     });
 
-    app.post('/api/role/create', controller.createRole)
-    app.post('/api/role/findOne', controller.findOneRole)
+    app.post('/role/create', controller.createRole)
+
+    app.post('/role/findOne', controller.findOneRole)
 }
