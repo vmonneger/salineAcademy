@@ -67,11 +67,12 @@ db.school.belongsTo(db.licence)
 
 // Video's relations
 db.video.hasMany(db.langue)
-db.video.hasMany(db.master)
+db.video.hasOne(db.master)
 db.video.hasMany(db.sous_titre)
-db.video.hasMany(db.instrument)
-db.video.hasMany(db.compositeur)
+db.video.hasOne(db.instrument)
+db.video.hasOne(db.compositeur)
 db.video.hasMany(db.commentaires)
+db.video.hasOne(db.format)
 
 // Sous-titre's relations
 db.sous_titre.belongsTo(db.video)

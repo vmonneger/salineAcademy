@@ -10,5 +10,5 @@ module.exports = function(app) {
         next();
     });
 
-    app.get('/api/test/all', controller.allAcces);
+    app.get('/test/all', controller.allAcces);
 }
