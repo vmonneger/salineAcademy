@@ -7,14 +7,14 @@ services:
         restart: unless-stopped
         env_file:
             - ./.env
-        build:
+        build: 
             context: ./back
             args:
-                NODE_ENV: PROD
+                NODE_ENV: PROD   
         ports:
             - "${API_PORT}:${API_PORT}"
         environment:
-            DB_HOST: db
+            DB_HOST: db       
         depends_on:
             - db
 
@@ -76,8 +76,16 @@ services:
             - "443:443"
         volumes:
             - front_build:/usr/share/nginx/html:ro
-            - ./nginx/conf/prod/:/etc/nginx/conf.d/:ro
-            - /etc/letsencrypt:/etc/letsencrypt
+            - ./nginx/conf/test/:/etc/nginx/conf.d/:ro
+            - ./nginx/certs:/etc/nginx/ssl
+            - ./certbot/www:/var/www/certbot/:ro
+            - ./certbot/conf/:/etc/letsencrypt/:ro
+            
+    certbot:
+        image: certbot/certbot:latest
+        volumes:
+            - ./certbot/www/:/var/www/certbot/:rw
+            - ./certbot/conf/:/etc/letsencrypt/:rw
 
 volumes:
     db:
@@ -86,7 +94,7 @@ volumes:
         driver: local
     node_modules_front:
         driver: local
-    pgadmin:
+    pgadmin: 
         driver: local
     front_build:
         driver: local

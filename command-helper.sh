@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function docker_build {
-  docker compose up --build -d
+  docker compose -f docker-compose-prod.yml up --build -d
 }
 
 function docker_delete_db {
