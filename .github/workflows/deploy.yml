@@ -74,7 +74,7 @@ jobs:
       - name: Pull on CGE
         if: always()
         run: |
-          gcloud compute ssh vmonneger@saline-academy --zone "europe-west9-a" "saline-academy" --project "bubbly-upgrade-395509" "vmonneger@saline-academy" --command "\
+          gcloud compute ssh vmonneger@saline-academy --zone "europe-west9-a" "vmonneger@saline-academy" --project "bubbly-upgrade-395509" --command "\
           cd /home/vmonneger/salineAcademy && \
           git config --global --add safe.directory /home/vmonneger/salineAcademy && \
           git pull && \
