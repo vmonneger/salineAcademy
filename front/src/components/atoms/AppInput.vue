@@ -247,7 +247,7 @@ watchEffect(() => {
           border-color: $negative;
         }
         &::after {
-          outline-color: map-get(map-get($map-colors, 'negative'), '50');
+          outline-color: $negative;
         }
       }
     }

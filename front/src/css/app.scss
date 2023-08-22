@@ -1,1 +1,17 @@
 // app global css in SCSS form
+
+$xs-breakpoint: 719px;
+$sm-breakpoint: 1023px;
+$md-breakpoint: 1439px;
+$lg-breakpoint: 1919px;
+
+.container,
+.container-sm,
+.container-md,
+.container-lg,
+.container-xl {
+  max-width: 1440px;
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+}

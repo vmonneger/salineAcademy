@@ -1,3 +1,7 @@
+/**
+ * @file Quasar config file.
+ */
+
 /* eslint-env node */
 
 /*
@@ -10,7 +14,7 @@
 
 const { configure } = require('quasar/wrappers')
 
-module.exports = configure(function (/* ctx */) {
+module.exports = configure(function (ctx) {
   return {
     eslint: {
       // fix: true,
@@ -44,11 +48,12 @@ module.exports = configure(function (/* ctx */) {
 
       // 'roboto-font', // optional, you are not bound to it
       // 'material-icons', // optional, you are not bound to it
-      'material-symbols-outlined',
+      'material-symbols-sharp',
     ],
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#build
     build: {
+      env: require('dotenv').config().parsed,
       target: {
         browser: ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1'],
         node: 'node16',
@@ -70,7 +75,14 @@ module.exports = configure(function (/* ctx */) {
       // polyfillModulePreload: true,
       // distDir
 
-      // extendViteConf (viteConf) {},
+      // /**
+      //  * Tweak the default Vite config.
+      //  *
+      //  * @param {object} viteConf - Vite configuration.
+      //  */
+      extendViteConf(viteConf) {
+        viteConf.resolve.dedupe = ['vue']
+      },
       // viteVuePluginOptions: {},
 
       // vitePlugins: [
@@ -88,7 +100,7 @@ module.exports = configure(function (/* ctx */) {
     framework: {
       config: {},
 
-      iconSet: 'material-symbols-outlined', // Quasar icon set
+      iconSet: 'material-symbols-sharp', // Quasar icon set
       lang: 'fr', // Quasar language pack
 
       // For special cases outside of where the auto-import strategy can have an impact
