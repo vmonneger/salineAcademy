@@ -15,6 +15,8 @@ export {
   AppTooltip,
   AppItem,
   AppSidebarItem,
+  AppDropdown,
+  AppRadio,
 } from './atoms/index'
 
-export { TheHeader, TheSidebar, TheDropdownProfile } from './molecules/index'
+export { TheHeader, TheSidebar, TheDropdownProfile, AppCardVideo } from './molecules/index'
