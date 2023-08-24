@@ -203,6 +203,7 @@ body.desktop {
         .q-icon {
           padding: 8px;
           border-radius: $generic-border-radius;
+          color: white;
         }
 
         &.style-primary {

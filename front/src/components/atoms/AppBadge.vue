@@ -7,7 +7,6 @@ interface BadgeProps {
   label?: string
   color?: string
   small?: boolean
-  dotIcon?: boolean
 }
 
 const props = withDefaults(defineProps<BadgeProps>(), {
