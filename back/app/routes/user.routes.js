@@ -1,5 +1,5 @@
 const { authJwt } = require('../Middleware');
-const controller = require('../controllers/user.controller');
+const controller = require('../controllers/users/user.controller');
 
 module.exports = function(app) {
     app.use(function(req, res, next) {
@@ -10,5 +10,7 @@ module.exports = function(app) {
         next();
     });
 
-    app.get('/test/all', controller.allAcces);
+    app.get('/users', controller.getAllUsers);
+    app.get('/user/:id', controller.getUserById);
+
 }

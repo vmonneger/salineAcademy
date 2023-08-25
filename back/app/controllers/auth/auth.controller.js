@@ -27,7 +27,7 @@ exports.signUp = async (req, res) => {
             roleId: role.id
         })
 
-        return res.send({ 
+        return res.status(200).send({ 
             message: 'User was registered successfully!',
             user: {
                 id: user.id,
@@ -71,7 +71,7 @@ exports.signIn = async (req, res) => {
     });
 
     const token = jwt.sign(
-        { id: user.id, role: userRole},
+        { id: user.id, role: userRole.name },
         config.secret,
         {
             algorithm: 'HS256',
@@ -80,5 +80,16 @@ exports.signIn = async (req, res) => {
         }
     );
 
-        return res.status(200).send({ message: 'signUp successfull', token: token, userData: { firstName: user.first_name, last_name: user.last_name, email: user.email, premium: user.premium }  })
+        return res.status(200).send({ 
+            message: 'signUp successfull',
+            token: token,
+            userData: { 
+                id: user.id, 
+                firstName: user.first_name, 
+                last_name: user.last_name, 
+                email: user.email, 
+                premium: user.premium ,
+                role: userRole.name
+            }  
+        })
 };
