@@ -26,7 +26,7 @@ COPY . .
 RUN if [ "$NODE_ENV" = "PROD" ]; then pnpm run build; fi
 
 EXPOSE 9000
-CMD if [ "$NODE_ENV" = "PROD" ]; then pnpm run serve; else pnpm run dev; fi
+CMD if [ "$NODE_ENV" = "DEV" ]; then pnpm run dev; fi
 
 
 
