@@ -1,0 +1,82 @@
+name: "Deploy"
+
+on:
+  push:
+    branches: ["dev"]
+
+jobs:
+  build-push-gce:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    name: Build and Push to GCE
+    runs-on: ubuntu-latest
+    env:
+      PROJECT_ID: 'bubbly-upgrade-39550'
+
+    steps:
+      - name: 'Checkout'
+        uses: 'actions/checkout@v3'
+
+      - name: 'Google Auth'
+        id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: ${{ secrets.WORKLOAD_ID_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT }}
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+        with:
+          version: '>= 363.0.0'
+
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+      - name: Create .env file
+        run: |
+          echo "NODE_ENV=prod" > .env
+          echo "AUTH_CONFIG=${{ secrets.AUTH_CONFIG }}" >> .env
+          echo "API_PORT=${{ secrets.API_PORT }}" >> .env
+          echo "CLIENT_PORT=${{ secrets.CLIENT_PORT }}" >> .env
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
+          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+          echo "PGADMIN_DEFAULT_EMAIL=${{ secrets.PGADMIN_DEFAULT_EMAIL }}" >> .env
+          echo "PGADMIN_DEFAULT_PASSWORD=${{ secrets.PGADMIN_DEFAULT_PASSWORD }}" >> .env
+          echo "PGADMIN_PORT=${{ secrets.PGADMIN_PORT }}" >> .env
+
+      - name: Build and push back and front images using docker-compose
+        run: |
+          docker-compose -f docker-compose-prod.yml build
+          docker tag salineacademy-back:latest ghcr.io/${{ github.repository_owner }}/salineacademy-back:latest
+          docker tag salineacademy-front:latest ghcr.io/${{ github.repository_owner }}/salineacademy-front:latest
+          docker push ghcr.io/${{ github.repository_owner }}/salineacademy-back:latest
+          docker push ghcr.io/${{ github.repository_owner }}/salineacademy-front:latest
+        
+      - name: Clean up .env file
+        if: always()
+        run: rm .env
+      
+      - name: Pull on CGE
+        if: always()
+        run: |
+          gcloud compute ssh --zone "europe-west9-a" "vmonneger@saline-academy" --project "bubbly-upgrade-395509" --command "\
+          cd /home/vmonneger/salineAcademy && \
+          git config --global --add safe.directory /home/vmonneger/salineAcademy && \
+          git pull && \
+          sudo docker compose -f docker-compose-prod.yml down -v && \
+          sudo docker compose -f docker-compose-prod.yml up -d --build"

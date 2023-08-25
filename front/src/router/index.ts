@@ -1,3 +1,6 @@
+/**
+ * @file Router.
+ */
 import { route } from 'quasar/wrappers'
 import { createMemoryHistory, createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 

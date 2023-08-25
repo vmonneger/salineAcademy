@@ -1,0 +1,100 @@
+version: '3.9'
+
+services:
+    back:
+        image: salineacademy-back
+        container_name: back
+        restart: unless-stopped
+        env_file:
+            - ./.env
+        build: 
+            context: ./back
+            args:
+                NODE_ENV: PROD   
+        ports:
+            - "${API_PORT}:${API_PORT}"
+        environment:
+            DB_HOST: db       
+        depends_on:
+            - db
+
+    front:
+        image: salineacademy-front
+        container_name: front
+        restart: unless-stopped
+        env_file:
+            - ./.env
+        build:
+            context: ./front
+            args:
+                NODE_ENV: PROD
+        volumes:
+            - ./.env:/app/.env
+            - front_build:/app/dist/spa
+        depends_on:
+            - back
+
+    db:
+        container_name: db
+        restart: unless-stopped
+        image: postgres:15.3
+        env_file:
+            - ./.env
+        environment:
+            POSTGRES_USER: ${DB_USER}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_DB: ${DB_NAME}
+            PGDATA: /data/postgres
+        volumes:
+            - db:/data/postgres
+            - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+        ports:
+            - "${DB_PORT}:${DB_PORT}"
+
+    pgadmin:
+        container_name: pgadmin
+        image: dpage/pgadmin4
+        env_file:
+            - ./.env
+        environment:
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+        volumes:
+            - pgadmin:/var/lib/pgadmin
+        ports:
+            - "${PGADMIN_PORT}:4002"
+        restart: unless-stopped
+
+    nginx:
+        image: nginx:latest
+        depends_on:
+            - front
+            - back
+        restart: always
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - front_build:/usr/share/nginx/html:ro
+            - ./nginx/conf/test/:/etc/nginx/conf.d/:ro
+            - ./nginx/certs:/etc/nginx/ssl
+            - ./certbot/www:/var/www/certbot/:ro
+            - ./certbot/conf/:/etc/letsencrypt/:ro
+            
+    certbot:
+        image: certbot/certbot:latest
+        volumes:
+            - ./certbot/www/:/var/www/certbot/:rw
+            - ./certbot/conf/:/etc/letsencrypt/:rw
+
+volumes:
+    db:
+        driver: local
+    node_modules_back:
+        driver: local
+    node_modules_front:
+        driver: local
+    pgadmin: 
+        driver: local
+    front_build:
+        driver: local

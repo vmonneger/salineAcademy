@@ -15,7 +15,7 @@
 
 $primary: #161c3d;
 $secondary: #454d79;
-$accent: #cc33ae;
+$accent: #cc34ae;
 
 $dark: #1d1d1d;
 $dark-page: #121212;
@@ -52,22 +52,6 @@ $map-colors: (
     '300': #d3d5da,
     '400': #949ba6,
   ),
-  'info': (
-    '50': #c5e9ff,
-    '100': #82d1f9,
-  ),
-  'positive': (
-    '50': #d9f6df,
-    '100': #65dc7f,
-  ),
-  'negative': (
-    '50': #fedbe1,
-    '100': #ff5a64,
-  ),
-  'warning': (
-    '50': #fff0d9,
-    '100': #ffc46b,
-  ),
 );
 
 @mixin colorParser($color, $map-colors) {
@@ -100,6 +84,8 @@ $generic-border-radius-sm: 10px;
 $generic-border-radius-md: 16px;
 $generic-border-radius-lg: 18px;
 $generic-border-radius-xl: 28px;
+
+$transition-hover: 0.2s;
 
 $heading-font-family: 'Merriweather', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu,
   Cantarell, 'Helvetica Neue', sans-serif;
