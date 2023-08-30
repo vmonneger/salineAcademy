@@ -21,7 +21,6 @@ services:
     front:
         image: salineacademy-front
         container_name: front
-        restart: unless-stopped
         env_file:
             - ./.env
         build:
