@@ -81,7 +81,7 @@ module.exports = configure(function () {
       //  * @param {object} viteConf - Vite configuration.
       //  */
       extendViteConf(viteConf) {
-        viteConf.resolve.dedupe = ['vue']
+        // viteConf.resolve.dedupe = ['vue']
       },
       // viteVuePluginOptions: {},
 
@@ -111,7 +111,7 @@ module.exports = configure(function () {
       // directives: [],
 
       // Quasar plugins
-      plugins: [],
+      plugins: ['Notify'],
     },
 
     // animations: 'all', // --- includes all animations

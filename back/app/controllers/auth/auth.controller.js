@@ -18,8 +18,8 @@ exports.signUp = async (req, res) => {
         })
     
         const user = await User.create({
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
+            first_name: req.body.firstName,
+            last_name: req.body.lastName,
             email: req.body.email,
             password: bcrypt.hashSync(req.body.password, 8),
             premium: req.body.premium,
@@ -27,15 +27,26 @@ exports.signUp = async (req, res) => {
             roleId: role.id
         })
 
+        const token = jwt.sign(
+            { id: user.id, role: role.name },
+            config.secret,
+            {
+                algorithm: 'HS256',
+                allowInsecureKeySizes: true,
+                expiresIn: 86400, // 24 hours
+            }
+        );
+
         return res.status(200).send({ 
             message: 'User was registered successfully!',
+            token: token,
             user: {
                 id: user.id,
-                first_name: user.first_name,
-                last_name: user.last_name,
+                firstName: user.first_name,
+                lastName: user.last_name,
                 email: user.email,
                 premium: user.premium,
-                role: role.id
+                role: role.name
             }
         })
     } catch (error) {   
@@ -83,10 +94,10 @@ exports.signIn = async (req, res) => {
         return res.status(200).send({ 
             message: 'signUp successfull',
             token: token,
-            userData: { 
+            user: { 
                 id: user.id, 
                 firstName: user.first_name, 
-                last_name: user.last_name, 
+                lastName: user.last_name, 
                 email: user.email, 
                 premium: user.premium ,
                 role: userRole.name

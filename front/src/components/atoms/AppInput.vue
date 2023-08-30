@@ -20,7 +20,7 @@ interface InputProps {
   required?: boolean
   size?: 'sm' | 'md' | 'lg'
   // eslint-disable-next-line
-  rules?: Array<(val: string | number | object) => boolean | string>
+  rules?: Array<(val: string | number | object) => boolean | string> | Array<(a: string) => string | boolean>
   type?: string
 }
 

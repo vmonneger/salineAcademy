@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /**
- * @file Component for Card.
+ * @file Component for card videos.
  */
 import { AppText as txt, AppBadge } from 'components'
 
