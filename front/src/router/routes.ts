@@ -5,10 +5,25 @@ import { RouteRecordRaw } from 'vue-router'
 
 const routes: RouteRecordRaw[] = [
   {
+    path: '/auth/register',
+    name: 'Register',
+    component: () => import('pages/AuthPage.vue'),
+  },
+  {
+    path: '/auth/login',
+    name: 'Login',
+    component: () => import('pages/AuthPage.vue'),
+  },
+  {
     path: '/auth/logout',
     name: 'Logout',
-    component: () => import('pages/LogoutPage.vue'),
+    component: () => null,
+    beforeEnter: () => {
+      localStorage.removeItem('token')
+      return { name: 'Login' }
+    },
   },
+
   {
     path: '/',
     component: () => import('layouts/AppLayout.vue'),
@@ -20,7 +35,7 @@ const routes: RouteRecordRaw[] = [
         path: 'catalog',
         name: 'Catalog',
         component: () => import('pages/CatalogPage.vue'),
-        meta: { title: 'Catalogue' },
+        meta: { requiresAuth: true, title: 'Catalogue' },
       },
     ],
   },

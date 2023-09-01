@@ -10,30 +10,47 @@ const jwt = require('jsonwebtoken');
 var bcrypt = require('bcrypt');
 
 exports.signUp = async (req, res) => {
-
-    let roleName = req.body.name ? req.body.name : 'USER' 
-
-    const role =  await Role.findOne({
-        where : {name: roleName}
-    })
-    
-    // Save User to Database
-    const user = User.create({
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email: req.body.email,
-        password: bcrypt.hashSync(req.body.password, 8),
-        premium: req.body.premium,
-        abonnementId: null,
-        roleId: role.id
-    })
+    try {
+        let roleName = req.body.name ? req.body.name : 'USER' 
         
+        const role =  await Role.findOne({
+            where : {name: roleName}
+        })
+    
+        const user = await User.create({
+            first_name: req.body.firstName,
+            last_name: req.body.lastName,
+            email: req.body.email,
+            password: bcrypt.hashSync(req.body.password, 8),
+            premium: req.body.premium,
+            abonnementId: null,
+            roleId: role.id
+        })
 
-    if(user === null ) {
-        res.status(500).send({ message: err.message });
-    } else {
-        console.log('User was registered successfully!');
-        res.send({ message: 'User was registered successfully!' })
+        const token = jwt.sign(
+            { id: user.id, role: role.name },
+            config.secret,
+            {
+                algorithm: 'HS256',
+                allowInsecureKeySizes: true,
+                expiresIn: 86400, // 24 hours
+            }
+        );
+
+        return res.status(200).send({ 
+            message: 'User was registered successfully!',
+            token: token,
+            user: {
+                id: user.id,
+                firstName: user.first_name,
+                lastName: user.last_name,
+                email: user.email,
+                premium: user.premium,
+                role: role.name
+            }
+        })
+    } catch (error) {   
+        return res.status(500).send({ message: error.message });
     }
 };
 
@@ -45,7 +62,7 @@ exports.signIn = async (req, res) => {
     })
 
     if(user == null) {
-        res.status(500).send({ message: 'user not found' })
+        return res.status(500).send({ message: 'user not found' })
     }
 
     var passwordValid = bcrypt.compareSync(
@@ -65,7 +82,7 @@ exports.signIn = async (req, res) => {
     });
 
     const token = jwt.sign(
-        { id: user.id, role: userRole},
+        { id: user.id, role: userRole.name },
         config.secret,
         {
             algorithm: 'HS256',
@@ -74,5 +91,16 @@ exports.signIn = async (req, res) => {
         }
     );
 
-        res.status(200).send({ message: 'signUp successfull', token: token, userData: { firstName: user.first_name, last_name: user.last_name, email: user.email, premium: user.premium }  })
+        return res.status(200).send({ 
+            message: 'signUp successfull',
+            token: token,
+            user: { 
+                id: user.id, 
+                firstName: user.first_name, 
+                lastName: user.last_name, 
+                email: user.email, 
+                premium: user.premium ,
+                role: userRole.name
+            }  
+        })
 };

@@ -14,7 +14,7 @@
 
 const { configure } = require('quasar/wrappers')
 
-module.exports = configure(function (ctx) {
+module.exports = configure(function () {
   return {
     eslint: {
       // fix: true,
@@ -81,7 +81,7 @@ module.exports = configure(function (ctx) {
       //  * @param {object} viteConf - Vite configuration.
       //  */
       extendViteConf(viteConf) {
-        viteConf.resolve.dedupe = ['vue']
+        // viteConf.resolve.dedupe = ['vue']
       },
       // viteVuePluginOptions: {},
 
@@ -111,7 +111,7 @@ module.exports = configure(function (ctx) {
       // directives: [],
 
       // Quasar plugins
-      plugins: [],
+      plugins: ['Notify'],
     },
 
     // animations: 'all', // --- includes all animations

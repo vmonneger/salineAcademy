@@ -5,11 +5,14 @@ import { computed } from 'vue'
 import { Navigation } from 'src/types/navigation'
 import { getFileFromAssets } from 'src/helpers/files'
 import { SIDEBAR_ARCHITECTURE, ALL_SIDEBAR_LINKS } from 'src/statics/navigationLinks'
+import { useUserStore } from 'stores/user'
 
 /**
  * Give access to the navigation logic of the application.
  */
 export const useNavigation = () => {
+  const userStore = useUserStore()
+
   /**
    * Get navigation links from map.
    */
@@ -47,7 +50,7 @@ export const useNavigation = () => {
    */
   const dropdownLabel = computed(() => {
     return {
-      name: 'Test name',
+      name: userStore.getFullName,
       loading: false,
       image: getFileFromAssets('jobpass-avatar.svg'),
     }

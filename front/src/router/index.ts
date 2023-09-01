@@ -3,8 +3,9 @@
  */
 import { route } from 'quasar/wrappers'
 import { createMemoryHistory, createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
-
+import { checkIfAuthenticated } from 'src/helpers/auth'
 import routes from './routes'
+import { useUserStore } from 'stores/user'
 
 /*
  * If not building with SSR mode, you can
@@ -31,6 +32,24 @@ export default route(function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.VUE_ROUTER_BASE),
   })
+  Router.beforeEach(async (to, from) => {
+    const userStore = useUserStore()
+    const token = localStorage.getItem('token')
 
+    userStore.$patch((state) => (state.isAuthenticated = checkIfAuthenticated(token ?? '')))
+    const isAuthenticated = userStore.isAuthenticated
+
+    if (to.meta.requiresAuth) {
+      if (!isAuthenticated) {
+        return { name: 'Login' }
+      }
+    }
+
+    if (isAuthenticated && (to.name === 'Login' || to.name === 'Register')) {
+      return from
+    } else if (!isAuthenticated && to.name !== 'Login' && to.name !== 'Register') {
+      return { name: 'Login' }
+    }
+  })
   return Router
 })

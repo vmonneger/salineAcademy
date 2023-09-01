@@ -1,12 +1,11 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 const cookieParser = require('cookie-parser');
 
 const app = express();
 
 var corsOptions = {
-    origin: "http://localhost:8081"
+    origin: "http://localhost:9000"
 };
 
 app.use(cors(corsOptions));
@@ -24,6 +23,14 @@ const retrySync = () => {
     db.sequelize.sync()
         .then(() => {
         console.log('Synced db.');
+        const roles = [
+            { name: 'USER', permission: 'USER' },
+            { name: 'TEACHER', permission: 'TEACHER' },
+            { name: 'STUDENT', permission: 'STUDENT' },
+            { name: 'ADMIN', permission: 'ADMIN' },
+        ];
+        const promises = roles.map(role => db.role.findOrCreate({ where: role }));
+        return Promise.all(promises);
         })
         .catch((err) => {
         console.log("Failed to sync db: " + err.message);

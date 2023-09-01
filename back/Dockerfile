@@ -10,8 +10,9 @@ COPY package*.json ./
 
 EXPOSE 8082
 
-RUN if [ "$NODE_ENV" = "PROD" ]; then npm ci; else npm install -g nodemon && npm install; fi
+RUN if [ "$NODE_ENV" = "PROD" ]; then npm ci; else npm install; fi
+RUN npm install pm2 -g
 
 COPY ./ ./
 
-CMD if [ "$NODE_ENV" = "PROD" ]; then node ./server.js; else nodemon ./server.js; fi
+CMD ["pm2-runtime", "start", "ecosystem.config.js"]

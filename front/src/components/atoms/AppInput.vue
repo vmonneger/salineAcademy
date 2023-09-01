@@ -20,7 +20,7 @@ interface InputProps {
   required?: boolean
   size?: 'sm' | 'md' | 'lg'
   // eslint-disable-next-line
-  rules?: Array<(val: string | number | object) => boolean | string>
+  rules?: Array<(val: string | number | object) => boolean | string> | Array<(a: string) => string | boolean>
   type?: string
 }
 
@@ -77,7 +77,6 @@ watchEffect(() => {
       :label="props.labelInside ? props.label : undefined"
       :model-value="props.modelValue"
       @update:model-value="(value) => $emit('update:modelValue', value)"
-      bg-color="white"
       v-bind="$attrs"
       outlined
       dense
@@ -212,6 +211,7 @@ watchEffect(() => {
 
   .q-field--outlined {
     .q-field__control {
+      background-color: #f3f2f9;
       &::before {
         border-color: map-get(map-get($map-colors, 'neutral'), '300');
       }

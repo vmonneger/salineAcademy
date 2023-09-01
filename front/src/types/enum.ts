@@ -1,6 +1,7 @@
 /**
  * @file Enum.
  */
+/* eslint-disable */
 
 export enum SidebarPosition {
   Top = 'TOP',

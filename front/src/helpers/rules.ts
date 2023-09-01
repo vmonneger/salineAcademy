@@ -37,3 +37,10 @@ export const ruleCheckBoxRequired: Array<(a: boolean | { option: string; value: 
     return val || 'Ce champ est requis'
   },
 ]
+
+/**
+ * Rule that checks if input is equal to the password confirmation.
+ */
+export const ruleVerifyPassword = (password: string): Array<(a: string) => boolean | string> => [
+  (val: string) => val === password || 'Le mot de passe est différent',
+]

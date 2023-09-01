@@ -14,6 +14,9 @@ import AppCheckbox from './AppCheckbox.vue'
 import AppTooltip from './AppTooltip.vue'
 import AppItem from './AppItem.vue'
 import AppSidebarItem from './AppSidebarItem.vue'
+import AppDropdown from './AppDropdown.vue'
+import AppRadio from './AppRadio.vue'
+import AppCard from './AppCard.vue'
 
 export {
   AppButton,
@@ -29,4 +32,7 @@ export {
   AppTooltip,
   AppItem,
   AppSidebarItem,
+  AppDropdown,
+  AppRadio,
+  AppCard,
 }
