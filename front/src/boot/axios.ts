@@ -33,7 +33,7 @@ export default boot(({ app, router }) => {
   api.interceptors.response.use(
     (response) => response,
     (error) => {
-      if (401 === error.response.status) {
+      if (401 === error.response?.status) {
         router.push({ name: 'Logout' })
       }
     }
