@@ -1,12 +1,14 @@
 const db = require('../../models');
 const User = db.users;
 
+const attributesToExclude = ['password', 'createdAt', 'updatedAt'];
+
 exports.getAllUsers = async (req, res) => {
     try {
         const users = await User.findAll({
-            attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }
+            attributes: { exclude: attributesToExclude }
         })
-        return res.status(200).send({ users});
+        return res.status(200).send({ users });
     } catch (error) {
         return res.status(500).send({ message: error.message });
     }
@@ -17,7 +19,7 @@ exports.getUserById = async (req, res) => {
 
     try {
         const user = await User.findByPk(userId, {
-            attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }
+            attributes: { exclude: attributesToExclude }
         });
 
         if (!user) {

@@ -1,11 +1,12 @@
 /**
  * @file Router.
  */
+import { computed } from 'vue'
 import { route } from 'quasar/wrappers'
 import { createMemoryHistory, createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
-import { checkIfAuthenticated } from 'src/helpers/auth'
+import { useQueryState } from 'src/composable/useQueryState'
 import routes from './routes'
-import { useUserStore } from 'stores/user'
+import { useAuthStore } from 'stores/auth'
 
 /*
  * If not building with SSR mode, you can
@@ -33,21 +34,25 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(process.env.VUE_ROUTER_BASE),
   })
   Router.beforeEach(async (to, from) => {
-    const userStore = useUserStore()
-    const token = localStorage.getItem('token')
+    const authStore = useAuthStore()
+    const { isQueryFetched } = useQueryState()
 
-    userStore.$patch((state) => (state.isAuthenticated = checkIfAuthenticated(token ?? '')))
-    const isAuthenticated = userStore.isAuthenticated
+    await isQueryFetched('checkAuth', async () => {
+      await authStore.checkAuth()
+    })
+
+    const isAuthenticated = computed(() => authStore.isAuthenticated)
 
     if (to.meta.requiresAuth) {
-      if (!isAuthenticated) {
-        return { name: 'Login' }
-      }
+      if (from.name === 'Login' || from.name === 'Register')
+        if (!isAuthenticated.value) {
+          return { name: 'Login' }
+        }
     }
 
-    if (isAuthenticated && (to.name === 'Login' || to.name === 'Register')) {
+    if (isAuthenticated.value && (to.name === 'Login' || to.name === 'Register')) {
       return from
-    } else if (!isAuthenticated && to.name !== 'Login' && to.name !== 'Register') {
+    } else if (!isAuthenticated.value && to.name !== 'Login' && to.name !== 'Register') {
       return { name: 'Login' }
     }
   })

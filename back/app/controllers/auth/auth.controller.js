@@ -1,13 +1,7 @@
 const db = require('../../models');
-const config = require('../../config/auth.config');
 const User = db.users;
 const Role = db.role;
-const Abonnement = db.abonnement;
-
-const Op = db.Sequelize.Op;
-
-const jwt = require('jsonwebtoken');
-var bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 
 exports.signUp = async (req, res) => {
     try {
@@ -27,19 +21,12 @@ exports.signUp = async (req, res) => {
             roleId: role.id
         })
 
-        const token = jwt.sign(
-            { id: user.id, role: role.name },
-            config.secret,
-            {
-                algorithm: 'HS256',
-                allowInsecureKeySizes: true,
-                expiresIn: 86400, // 24 hours
-            }
-        );
+        req.session.userId = user.id;
+        req.session.role = role.name;
+        await req.session.save();
 
         return res.status(200).send({ 
             message: 'User was registered successfully!',
-            token: token,
             user: {
                 id: user.id,
                 firstName: user.first_name,
@@ -72,7 +59,6 @@ exports.signIn = async (req, res) => {
 
     if(!passwordValid) {
         return res.status(401).send({
-            accessToken: null,
             message: 'Invalid Password!'
         });
     }
@@ -81,26 +67,39 @@ exports.signIn = async (req, res) => {
         attributes: ['name']
     });
 
-    const token = jwt.sign(
-        { id: user.id, role: userRole.name },
-        config.secret,
-        {
-            algorithm: 'HS256',
-            allowInsecureKeySizes: true,
-            expiresIn: 86400, // 24 hours
+    req.session.userId = user.id;
+    req.session.role = userRole.name;
+    await req.session.save();
+    
+    return res.status(200).send({ 
+        message: 'signIn successfull',
+        user: { 
+            id: user.id, 
+            firstName: user.first_name, 
+            lastName: user.last_name, 
+            email: user.email, 
+            premium: user.premium ,
+            role: userRole.name
         }
-    );
-
-        return res.status(200).send({ 
-            message: 'signUp successfull',
-            token: token,
-            user: { 
-                id: user.id, 
-                firstName: user.first_name, 
-                lastName: user.last_name, 
-                email: user.email, 
-                premium: user.premium ,
-                role: userRole.name
-            }  
-        })
+    })
 };
+
+exports.logout = (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).send({ message: err.message });
+        }
+
+        res.clearCookie('salinehetic');
+        res.status(200).send({ message: 'User was logged out successfully!', isAuthenticated: false });
+    });
+};
+
+exports.checkAuth = (req, res) => {
+    if (req.session.userId) {
+        res.status(200).send({ isAuthenticated: true });
+    } else {
+        res.status(200).send({ isAuthenticated: false });
+    }
+};
+

@@ -3,9 +3,10 @@ const controller = require('../controllers/abonnement/abonnement.controller');
 module.exports = function(app) {
     app.use(function (req, res, next) {
         res.header(
-            "Acces-Control-Allow-Headers",
-            "x-acces-token, Origin, Content-Type, Accept"
+            "Access-Control-Allow-Headers",
+            "Origin, Content-Type, Accept, Cookie"
         );
+        res.header("Access-Control-Allow-Credentials", "true");
         next();
     });
 

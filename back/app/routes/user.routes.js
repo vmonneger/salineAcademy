@@ -1,16 +1,18 @@
-const { authJwt } = require('../Middleware');
+const { auth } = require('../middleware');
 const controller = require('../controllers/users/user.controller');
 
 module.exports = function(app) {
     app.use(function(req, res, next) {
         res.header(
             "Access-Control-Allow-Headers",
-            "x-access-token, Origin, Content-Type, Accept"
+            "Origin, Content-Type, Accept, Cookie"
         );
+        res.header("Access-Control-Allow-Credentials", "true");
         next();
     });
 
-    app.get('/users', controller.getAllUsers);
-    app.get('/user/:id', controller.getUserById);
+    app.get('/users', [auth.isLoggedIn], controller.getAllUsers);
+    app.get('/user/:id', [auth.isLoggedIn, auth.isSameUser], controller.getUserById);
+
 
 }
