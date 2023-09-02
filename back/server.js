@@ -9,7 +9,7 @@ const RedisStore = require('connect-redis').default;
 const app = express();
 
 app.use(cors({
-    origin: "http://localhost:9000",
+    origin: "https://salinehetic.tech",
     credentials: true
 }));
 app.use(express.json());

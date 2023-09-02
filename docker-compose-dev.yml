@@ -40,7 +40,7 @@ services:
             - ./front:/app
             - ./.env:/app/.env
         ports:
-            - "${CLIENT_PORT}:{CLIENT_PORT}"
+            - "${CLIENT_PORT}:9000"
         depends_on:
             - back
 

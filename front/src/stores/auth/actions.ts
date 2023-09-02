@@ -18,7 +18,7 @@ export const actions: PiniaActions<AuthStore> = {
       premium: false,
     })
 
-    if (response.data) {
+    if (response?.data) {
       const user = response.data.user
       userStore.$patch({
         firstName: user.firstName,
@@ -39,7 +39,7 @@ export const actions: PiniaActions<AuthStore> = {
       password: user.password,
     })
 
-    if (response.data) {
+    if (response?.data) {
       const user = response.data.user
       userStore.$patch({
         firstName: user.firstName,
@@ -56,7 +56,7 @@ export const actions: PiniaActions<AuthStore> = {
   async checkAuth() {
     const response = await api.get('auth/check-auth')
 
-    if (response.data?.isAuthenticated) {
+    if (response?.data?.isAuthenticated) {
       this.$patch({
         isAuthenticated: response.data.isAuthenticated,
       })
@@ -66,7 +66,7 @@ export const actions: PiniaActions<AuthStore> = {
   async logout() {
     const response = await api.post('auth/logout')
 
-    if (response.data?.isAuthenticated === false) {
+    if (response?.data?.isAuthenticated === false) {
       this.$patch({
         isAuthenticated: response.data.isAuthenticated,
       })
