@@ -2,6 +2,8 @@
  * @file Routes.
  */
 import { RouteRecordRaw } from 'vue-router'
+import { useAuthStore } from 'stores/auth'
+import { useQueryState } from 'src/composable/useQueryState'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -18,8 +20,13 @@ const routes: RouteRecordRaw[] = [
     path: '/auth/logout',
     name: 'Logout',
     component: () => null,
-    beforeEnter: () => {
-      localStorage.removeItem('token')
+    beforeEnter: async () => {
+      const { clearSavedQueries } = useQueryState()
+      const authStore = useAuthStore()
+
+      clearSavedQueries()
+      await authStore.logout()
+      authStore.$reset()
       return { name: 'Login' }
     },
   },

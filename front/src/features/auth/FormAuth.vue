@@ -5,7 +5,7 @@
 import { ref, computed } from 'vue'
 import { notification, notificationSaved } from 'src/helpers/notifications'
 import { useRouter } from 'vue-router'
-import { useUserStore } from 'stores/user'
+import { useAuthStore } from 'stores/auth'
 import { capitalizeFirstLetter } from 'src/helpers/text'
 import { ruleVerifyPassword } from 'src/helpers/rules'
 import { AppInput, AppButton } from 'components'
@@ -16,7 +16,7 @@ interface FormProps {
 
 const props = defineProps<FormProps>()
 
-const userStore = useUserStore()
+const authStore = useAuthStore()
 const router = useRouter()
 
 const form = ref({
@@ -38,7 +38,7 @@ const handleSubmit = async () => {
   loading.value = true
   try {
     if (props.authMode === 'register') {
-      await userStore.register({
+      await authStore.register({
         firstName: capitalizeFirstLetter(form.value.firstName),
         lastName: capitalizeFirstLetter(form.value.lastName),
         email: form.value.email,
@@ -46,7 +46,7 @@ const handleSubmit = async () => {
       })
       notificationSaved()
     } else {
-      await userStore.login({
+      await authStore.login({
         email: form.value.email,
         password: form.value.password,
       })
