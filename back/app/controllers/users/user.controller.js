@@ -1,5 +1,6 @@
 const db = require('../../models');
 const User = db.users;
+const Role = db.role 
 
 const attributesToExclude = ['password', 'createdAt', 'updatedAt'];
 
@@ -31,3 +32,23 @@ exports.getUserById = async (req, res) => {
         return res.status(500).send({ message: error.message });
     }
 };
+
+exports.getCurrentUser = async (req, res) => {
+
+    const userId = req.session.userId
+
+    try {
+        const user = await User.findByPk(userId, {
+            attributes: ['id', ['first_name', 'firstName'], ['last_name', 'lastName'], 'email', 'premium'],
+            include: {
+                model: Role,
+                attributes: ['name']
+              }
+        })
+
+        return res.status(200).send({user: user});
+
+    } catch (error) {
+        return res.status(500).send({ message: error.message });
+    }
+}
