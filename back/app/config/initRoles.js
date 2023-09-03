@@ -1,11 +1,10 @@
 const data = {
 
     roles: [
-        { name: 'USER', permission: 'READ', roleLevel: 0 },
-        { name: 'TEACHER', permission: 'READ-WRITE', roleLevel: 1 },
-        { name: 'STUDENT', permission: 'READ', roleLevel: 1 },
-        { name: 'SCHOOL-ADMIN', permission: 'READ-WRITE', roleLevel: 2 },
-        { name: 'ADMIN', permission: 'READ-WRITE', roleLevel: 3 },
+        { name: 'USER' },
+        { name: 'TEACHER' },
+        { name: 'STUDENT' },
+        { name: 'ADMIN' },
     ],
 
     videos: [

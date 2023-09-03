@@ -53,10 +53,10 @@ const retrySync = () => {
         .then(() => {
         console.log('Synced db.');
         const roles = [
-            { name: 'USER', permission: 'USER' },
-            { name: 'TEACHER', permission: 'TEACHER' },
-            { name: 'STUDENT', permission: 'STUDENT' },
-            { name: 'ADMIN', permission: 'ADMIN' },
+            { name: 'USER' },
+            { name: 'TEACHER' },
+            { name: 'STUDENT' },
+            { name: 'ADMIN' },
         ];
         const promises = roles.map(role => db.role.findOrCreate({ where: role }));
         return Promise.all(promises);
