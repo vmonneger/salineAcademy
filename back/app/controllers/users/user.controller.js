@@ -31,3 +31,19 @@ exports.getUserById = async (req, res) => {
         return res.status(500).send({ message: error.message });
     }
 };
+
+exports.getCurrentUser = async (req, res) => {
+
+    const userId = req.session.userId
+
+    try {
+        const user = await User.findByPK(userId, {
+            include: { all: true, nested: true },
+        })
+
+        return res.status(200).send(user);
+
+    } catch (error) {
+        return res.status(500).send({ message: error.message });
+    }
+}
