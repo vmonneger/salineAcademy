@@ -46,7 +46,7 @@ exports.getCurrentUser = async (req, res) => {
               }
         })
 
-        return res.status(200).send(user);
+        return res.status(200).send({user: user});
 
     } catch (error) {
         return res.status(500).send({ message: error.message });
