@@ -1,7 +1,4 @@
 let csvToJson = require('convert-csv-to-json');
-const jwt = require('jsonwebtoken');
-
-const config = require('../../config/auth.config')
 const { transporter, mailData } = require('../../mailer/sendMail');
 
 const db = require('../../models');
@@ -44,18 +41,9 @@ exports.signFromCsv = async (req, res) => {
                     })
     
                     if (createUser){
-                        const token = jwt.sign(
-                            { id: createUser.id},
-                            config.secret,
-                            {
-                                algorithm: 'HS256',
-                                allowInsecureKeySizes: true,
-                                expiresIn: 86400, // 24 hours
-                            }
-                        );
         
                         mailData.to = user.Email
-                        mailData.html = `<b>Bienvenue dans la Saline Royal Academy ${user.Prénom} </b> <br></br> <br> Veuillez cliquer sur ce lien pour finaliser la création de votre compte: https://salinehetic.tech/reset-password/${token} <br/>`
+                        mailData.html = `<b>Bienvenue dans la Saline Royal Academy ${user.Prénom} </b> <br></br> <br> Veuillez cliquer sur ce lien pour finaliser la création de votre compte: https://salinehetic.tech <br/>`
                         
                         transporter.sendMail(mailData, function(error, info){
                             if (error) {

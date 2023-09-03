@@ -3,11 +3,6 @@ const User = db.users;
 const Role = db.role;
 const bcrypt = require('bcrypt');
 
-const Op = db.Sequelize.Op;
-
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-
 exports.signUp = async (req, res) => {
     try {
         let roleName = req.body.name ? req.body.name : 'USER' 
@@ -89,18 +84,15 @@ exports.signIn = async (req, res) => {
     })
 };
 
-        return res.status(200).send({ 
-            message: 'signIn successfull',
-            token: token,
-            user: { 
-                id: user.id, 
-                firstName: user.first_name, 
-                lastName: user.last_name, 
-                email: user.email, 
-                premium: user.premium ,
-                role: userRole.name
-            }  
-        })
+exports.logout = (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).send({ message: err.message });
+        }
+
+        res.clearCookie('salinehetic');
+        res.status(200).send({ message: 'User was logged out successfully!', isAuthenticated: false });
+    });
 };
 
 exports.checkAuth = (req, res) => {
@@ -110,4 +102,18 @@ exports.checkAuth = (req, res) => {
         res.status(200).send({ isAuthenticated: false });
     }
 };
+
+exports.updatePassword = async (req, res) => {
+    const password = bcrypt.hashSync(req.body.password, 8)
+    
+    try {
+        await User.update({ password: password }, {
+            where: { id: req.body.userId }
+        });
+        
+        res.status(200).send({ message: 'Password changed successfully !' })
+    } catch (error) {
+        return res.status(500).send({ message: error });
+    }
+}
 

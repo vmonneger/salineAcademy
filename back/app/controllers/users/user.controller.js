@@ -1,5 +1,3 @@
-const bcrypt = require('bcrypt');
-
 const db = require('../../models');
 const User = db.users;
 
@@ -33,18 +31,3 @@ exports.getUserById = async (req, res) => {
         return res.status(500).send({ message: error.message });
     }
 };
-
-exports.resetPassword = async (req, res) => {
-    const password = bcrypt.hashSync(req.body.password, 8)
-    
-    try {
-        const user = await User.update({ password: password }, {
-            where: { id: req.body.userId }
-        });
-        
-        res.status(200).send({ message: 'Password changed successfully !' })
-    } catch (error) {
-        return res.status(500).send({ message: error });
-    }
-
-}
