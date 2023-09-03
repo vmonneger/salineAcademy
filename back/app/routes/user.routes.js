@@ -11,6 +11,8 @@ module.exports = function(app) {
     });
 
     app.get('/users', controller.getAllUsers);
+    
     app.get('/user/:id', controller.getUserById);
-
+    
+    app.post('/reset-password', [authJwt.verifyToken], controller.resetPassword )
 }

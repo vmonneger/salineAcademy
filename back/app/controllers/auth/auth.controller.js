@@ -7,7 +7,7 @@ const Abonnement = db.abonnement;
 const Op = db.Sequelize.Op;
 
 const jwt = require('jsonwebtoken');
-var bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 
 exports.signUp = async (req, res) => {
     try {
@@ -92,7 +92,7 @@ exports.signIn = async (req, res) => {
     );
 
         return res.status(200).send({ 
-            message: 'signUp successfull',
+            message: 'signIn successfull',
             token: token,
             user: { 
                 id: user.id, 

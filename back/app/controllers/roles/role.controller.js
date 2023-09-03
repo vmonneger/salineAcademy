@@ -6,7 +6,8 @@ const Op = db.Sequelize.Op
 exports.createRole = (req, res) => {
     Role.create({
         name: req.body.name,
-        permission: req.body.permission
+        permission: req.body.permission,
+        roleLevel: req.body.reoleLevel
     })
     .then(() => {
         console.log('Role created');
