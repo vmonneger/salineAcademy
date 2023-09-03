@@ -58,6 +58,7 @@ db.role.hasMany(db.users, {as: "users"})
 
 db.users.belongsTo(db.abonnement);
 db.users.belongsTo(db.role);
+db.users.belongsTo(db.school);
 
 // Licence_mail's relations
 db.licence_mail.belongsTo(db.licence)
@@ -103,6 +104,7 @@ db.cours.hasMany(db.cours_master)
 db.cours.hasMany(db.cours_sousTitre)
 db.cours.hasMany(db.cours_student)
 db.cours.hasMany(db.cours_video)
+db.cours.belongsTo(db.users)
 
 db.cours_commentaire.belongsTo(db.users)
 db.cours_compositeur.belongsTo(db.compositeur)

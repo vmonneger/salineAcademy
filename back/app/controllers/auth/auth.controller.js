@@ -103,3 +103,17 @@ exports.checkAuth = (req, res) => {
     }
 };
 
+exports.updatePassword = async (req, res) => {
+    const password = bcrypt.hashSync(req.body.password, 8)
+    
+    try {
+        await User.update({ password: password }, {
+            where: { id: req.body.userId }
+        });
+        
+        res.status(200).send({ message: 'Password changed successfully !' })
+    } catch (error) {
+        return res.status(500).send({ message: error });
+    }
+}
+
