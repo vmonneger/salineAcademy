@@ -3,8 +3,8 @@
  */
 import { boot } from 'quasar/wrappers'
 import axios, { AxiosInstance } from 'axios'
-
 declare module '@vue/runtime-core' {
+  // eslint-disable-next-line
   interface ComponentCustomProperties {
     $axios: AxiosInstance
   }
@@ -22,17 +22,22 @@ const api = axios.create({
     Accept: 'application/json',
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 })
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token')
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
-  }
   return config
 })
 
-export default boot(({ app }) => {
+export default boot(({ app, router }) => {
+  api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (401 === error.response?.status) {
+        router.push({ name: 'Logout' })
+      }
+    }
+  )
   // for use inside Vue files (Options API) through this.$axios and this.$api
 
   app.config.globalProperties.$axios = axios

@@ -1,23 +1,52 @@
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require('cookie-parser');
+const db = require("./app/models");
+const session = require('express-session');
+const { createClient } = require('redis');
+const RedisStore = require('connect-redis').default;
 
 const app = express();
 
-var corsOptions = {
-    origin: "http://localhost:9000"
-};
-
-app.use(cors(corsOptions));
-
-// parse requests of content-type - aplication/json
+app.use(cors({
+    origin: "https://salinehetic.tech",
+    credentials: true
+}));
 app.use(express.json());
-
-// parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
 
-const db = require("./app/models");
+const redisClient = createClient({
+    socket: {
+        host: 'redis',
+        port: process.env.REDIS_PORT
+    }
+});
+redisClient.connect().catch(console.error);
+
+const redisStore = new RedisStore({
+    client: redisClient,
+    prefix: "salinehetic:",
+});
+
+const sess = {
+    name: 'salinehetic',
+    store: redisStore,
+    secret: process.env.AUTH_CONFIG,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { 
+        maxAge: 1000 * 60 * 60 * 24 ,
+        secure: false
+    },
+}
+
+if (process.env.NODE_ENV !== 'DEV') {
+    app.set('trust proxy', 1)
+    sess.cookie.secure = true
+}
+
+app.use(session(sess));
 
 const retrySync = () => {
     db.sequelize.sync()
@@ -55,7 +84,7 @@ require('./app/routes/user.routes')(app);
 require('./app/routes/role.routes')(app); 
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8082;
+const PORT = process.env.API_PORT || 8082;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });

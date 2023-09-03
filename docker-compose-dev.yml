@@ -19,6 +19,12 @@ services:
             DB_HOST: db       
         depends_on:
             - db
+            
+    redis:
+        image: redis
+        container_name: redis
+        ports:
+        - "${REDIS_PORT}:${REDIS_PORT}"
 
     front:
         container_name: front
