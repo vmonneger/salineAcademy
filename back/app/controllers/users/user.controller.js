@@ -37,7 +37,7 @@ exports.getCurrentUser = async (req, res) => {
     const userId = req.session.userId
 
     try {
-        const user = await User.findByPK(userId, {
+        const user = await User.findByPk(userId, {
             include: { all: true, nested: true },
         })
 
