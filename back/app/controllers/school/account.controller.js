@@ -1,4 +1,5 @@
-let csvToJson = require('convert-csv-to-json');
+const csvToJson = require('convert-csv-to-json');
+const bcrypt = require('bcrypt');
 const { transporter, mailData } = require('../../mailer/sendMail');
 
 const db = require('../../models');
@@ -9,6 +10,8 @@ const Licence = db.licence;
 
 
 exports.signFromCsv = async (req, res) => {
+
+    console.log('<============> School signUp <============>')
     try {
         const limitDate = new Date();
         limitDate.setFullYear(limitDate.getFullYear() + 1);
@@ -28,12 +31,22 @@ exports.signFromCsv = async (req, res) => {
                 
                 json.map( async (user) =>  {
                     const role = await Role.findOne({ where: {name: user.Role}})
+
+                    const characters = 'ABCD@E$F+I*UV&WXY@Z?jkl!mqrst%uvw=xy*z0123456789-';
+                    let charactersLength = characters.length;
+                    let randString = ''
+
+                    for (let i = 0; i < 5; i++) {
+                        randString += characters.charAt(Math.floor(Math.random() * charactersLength));
+                    }
+
+                    const password = user.Nom + randString
     
                     const createUser = await User.create({
                         first_name: user.Prénom,
                         last_name: user.Nom,
                         email: user.Email,
-                        password: null,
+                        password: bcrypt.hashSync(password, 8),
                         premium: true,
                         abonnementId: null,
                         roleId: role.id,
@@ -43,7 +56,7 @@ exports.signFromCsv = async (req, res) => {
                     if (createUser){
         
                         mailData.to = user.Email
-                        mailData.html = `<b>Bienvenue dans la Saline Royal Academy ${user.Prénom} </b> <br></br> <br> Veuillez cliquer sur ce lien pour finaliser la création de votre compte: https://salinehetic.tech <br/>`
+                        mailData.html = `<b>Bienvenue dans la Saline Royal Academy ${user.Prénom} </b> <br></br> <br> Veuillez cliquer sur ce lien pour finaliser la création de votre compte: https://salinehetic.tech <br/> Votre mot de passe est: ${password}`
                         
                         transporter.sendMail(mailData, function(error, info){
                             if (error) {
@@ -60,7 +73,7 @@ exports.signFromCsv = async (req, res) => {
             
         }    
             
-        return res.status(200).send({message: {mailData: mailData, transporter: transporter.options}})
+        return res.status(200).send({message: 'school info created successfully!'})
     
     } catch (error) {
         console.log(error)
