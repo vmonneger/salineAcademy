@@ -73,17 +73,18 @@ const initVideos = async () => {
             defaults: { url: data.url, title: data.title, description: data.description }
         })
         
-        if(videoCreated)
+        if(videoCreated) {
 
-        await db.sous_titre.Create({ name: data.sousTitre,  videoId: video.id })
-
-        await video.createMaster({ name: data.master })
-        
-        await video.createLangue({ name: data.langue })
-        
-        await video.createInstrument({ name: data.instrument })
-        
-        await video.createFormat({ name: data.format })
+            await video.createSous_titre({name: data.sousTitre})
+    
+            await video.createMaster({ name: data.master })
+            
+            await video.createLangue({ name: data.langue })
+            
+            await video.createInstrument({ name: data.instrument })
+            
+            await video.createFormat({ name: data.format })
+        }
     }
 
     return('done')
@@ -103,12 +104,11 @@ const initUsers = async () => {
             return
         }
 
-        user.userData.roleId = role.id
-        let userInfo = user.userData
+        const userInfo = user.userData
 
         const [userFound, UserCreated] = await db.users.findOrCreate({ 
             where: {email: user.userData.email},
-            defaults: { userInfo }
+            defaults: { first_name: userInfo.first_name, last_name: userInfo.last_name, email: userInfo.email, password: userInfo.password, premium: userInfo.premium, roleId: role.id, abonnementId: userInfo.abonnementId, schoolId: userInfo.schoolId}
         })
     }
 }
@@ -144,8 +144,14 @@ require('./app/routes/user.routes')(app);
 // Role routes
 require('./app/routes/role.routes')(app);
 
+//Video routes
+require('./app/routes/video.routes')(app);
+
 // School routes
 require('./app/routes/school.routes')(app);
+
+//Cours routes
+// require('./app/routes/cours.routes')(app);
 
 // set port, listen for requests
 const PORT = process.env.API_PORT || 8082;
