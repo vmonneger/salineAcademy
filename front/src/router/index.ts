@@ -7,6 +7,7 @@ import { createMemoryHistory, createRouter, createWebHashHistory, createWebHisto
 import { useQueryState } from 'src/composable/useQueryState'
 import routes from './routes'
 import { useAuthStore } from 'stores/auth'
+import { useUserStore } from 'stores/user'
 
 /*
  * If not building with SSR mode, you can
@@ -35,6 +36,7 @@ export default route(function (/* { store, ssrContext } */) {
   })
   Router.beforeEach(async (to, from) => {
     const authStore = useAuthStore()
+    const userStore = useUserStore()
     const { isQueryFetched } = useQueryState()
 
     await isQueryFetched('checkAuth', async () => {
@@ -43,17 +45,22 @@ export default route(function (/* { store, ssrContext } */) {
 
     const isAuthenticated = computed(() => authStore.isAuthenticated)
 
-    if (to.meta.requiresAuth) {
-      if (from.name === 'Login' || from.name === 'Register')
-        if (!isAuthenticated.value) {
-          return { name: 'Login' }
-        }
-    }
-
     if (isAuthenticated.value && (to.name === 'Login' || to.name === 'Register')) {
       return from
     } else if (!isAuthenticated.value && to.name !== 'Login' && to.name !== 'Register') {
       return { name: 'Login' }
+    }
+
+    if (to.meta.requiresAuth) {
+      if (from.name === 'Login' || from.name === 'Register') {
+        if (!isAuthenticated.value) {
+          return { name: 'Login' }
+        }
+      }
+
+      if (!userStore.id) {
+        await userStore.currentUser()
+      }
     }
   })
   return Router

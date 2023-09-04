@@ -2,15 +2,14 @@
  * @file All the navigation links.
  */
 
-import { SidebarPosition } from 'src/types/enum'
+import { SidebarPosition, Role } from 'src/types/enum'
 
 export const SIDEBAR_ARCHITECTURE = [
   {
     position: SidebarPosition.Top,
-    role: 'STUDENT',
-    links: ['Catalog'],
+    links: ['Catalog', 'Courses'],
   },
-  { position: SidebarPosition.Dropdown, role: 'STUDENT', links: ['Profil', 'Logout'] },
+  { position: SidebarPosition.Dropdown, links: ['Profil', 'Logout'] },
 ]
 
 export const ALL_SIDEBAR_LINKS = new Map([
@@ -20,6 +19,18 @@ export const ALL_SIDEBAR_LINKS = new Map([
       label: 'Catalogue',
       link: 'Catalog',
       icon: 'sym_s_video_library',
+    },
+  ],
+  [
+    'Courses',
+    {
+      label: 'Mes cours',
+      link: 'Courses',
+      role: {
+        [Role.Student]: Role.Student,
+        [Role.Teacher]: Role.Teacher,
+      },
+      icon: 'sym_s_school',
     },
   ],
   [

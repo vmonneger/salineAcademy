@@ -14,6 +14,7 @@ export interface Navigation {
   icon?: string
   disabled?: boolean
   class?: string
+  role?: Array<string>
 }
 
 export interface DropdownLabel {

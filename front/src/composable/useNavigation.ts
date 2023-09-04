@@ -12,18 +12,24 @@ import { useUserStore } from 'stores/user'
  */
 export const useNavigation = () => {
   const userStore = useUserStore()
+  const userRole = computed(() => userStore.role)
 
   /**
    * Get navigation links from map.
    */
   const getLinksFromString = (links: Array<string>) => {
     const linksArray = [] as Array<Navigation>
+
     links.forEach((linkName) => {
       if (ALL_SIDEBAR_LINKS.has(linkName)) {
-        let temp = { ...ALL_SIDEBAR_LINKS.get(linkName) } as Navigation
-        if (temp?.link) {
+        let temp = ALL_SIDEBAR_LINKS.get(linkName) as Navigation
+
+        if (temp?.role && !temp?.role.hasOwnProperty(userRole.value)) {
+          return
+        } else {
           temp = { ...temp, link: { name: temp?.link as string } }
         }
+
         linksArray.push(temp)
       }
     })
@@ -44,9 +50,7 @@ export const useNavigation = () => {
   })
 
   /**
-   * The name and image for the dropdownProfile depending if you are on the user side or the recruiter side.
-   *
-   * @returns {object} Label.
+   * The name and image for the dropdownProfile.
    */
   const dropdownLabel = computed(() => {
     return {
