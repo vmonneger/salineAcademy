@@ -10,5 +10,4 @@ export const state = (): UserState => ({
   email: '',
   premium: false,
   role: '',
-  isAuthenticated: false,
 })

@@ -14,3 +14,10 @@ export enum Drawer {
   MinWidth = 75,
   Tablet = 1024,
 }
+
+export enum Role {
+  Student = 'STUDENT',
+  Teacher = 'TEACHER',
+  Admin = 'ADMIN',
+  User = 'USER',
+}
