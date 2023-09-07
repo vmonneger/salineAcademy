@@ -1,7 +1,7 @@
 module.exports = (sequelize, Sequelize) => {
     const Compositeur = sequelize.define("compositeur", {
 
-        Name: {
+        name: {
             type: Sequelize.STRING,
             allowNull: false
         }

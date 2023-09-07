@@ -50,14 +50,28 @@ if (process.env.NODE_ENV !== 'DEV') {
 
 app.use(session(sess));
 
-const initRoles = () => {
+const initRoles = async () => {
 
     console.log('<=======================> initRoles <=======================>')
-    const roles = dbInit.roles;
     
-    const rolePromise = roles.map(role => db.role.findOrCreate({ where: role }));
+    try {
+        const roles = dbInit.roles;
+        
+        for (let index = 0; index < roles.length; index++) {
+            const data = roles[index];
 
-    return Promise.all(rolePromise)
+            console.log('roles =>', data)
+            
+            const [roleFounded, roleCreated] = await db.role.findOrCreate({
+                where: {name: data.name} ,
+                defaults: { name: data.name}
+            })
+        }
+
+        return(true)
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 const initVideos = async () => {
@@ -65,29 +79,39 @@ const initVideos = async () => {
 
     const videos = dbInit.videos;
 
-    for (let index = 0; index < videos.length; index++) {
-        const data = videos[index];
-        
-        const [video, videoCreated] = await db.video.findOrCreate({ 
-            where: { url: data.url, title: data.title, description: data.description },
-            defaults: { url: data.url, title: data.title, description: data.description }
-        })
-        
-        if(videoCreated) {
+    try {
+        for (let index = 0; index < videos.length; index++) {
+            const data = videos[index];
 
-            await video.createSous_titre({name: data.sousTitre})
+            console.log('video =>', data.title)
+            
+            const [video, videoCreated] = await db.video.findOrCreate({ 
+                where: { url: data.url, title: data.title, description: data.description },
+                defaults: { url: data.url, title: data.title, description: data.description }
+            })
+            
+            if(videoCreated) {
     
-            await video.createMaster({ name: data.master })
-            
-            await video.createLangue({ name: data.langue })
-            
-            await video.createInstrument({ name: data.instrument })
-            
-            await video.createFormat({ name: data.format })
-        }
-    }
+                await video.createSous_titre({name: data.sousTitre})
+        
+                await video.createMaster({ name: data.master })
 
-    return('done')
+                await video.createCompositeur({ name: data.compositeur })
+                
+                await video.createLangue({ name: data.langue })
+                
+                await video.createInstrument({ name: data.instrument })
+                
+                await video.createFormat({ name: data.format })
+            }
+
+        }
+
+        return(true)
+
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 const initUsers = async () => {
@@ -95,22 +119,31 @@ const initUsers = async () => {
 
     const users = dbInit.users;
 
-    for (let index = 0; index < users.length; index++) {
-
-        const user = users[index];
-        const role = await db.role.findOne({ where: {name: user.roleName} })
-
-        if(!role) {
-            return
+    try {
+        for (let index = 0; index < users.length; index++) {
+    
+            const user = users[index];
+            const role = await db.role.findOne({ where: {name: user.roleName} })
+    
+            if(!role) {
+                return (false)
+            }
+    
+            const userInfo = user.userData
+    
+            const [userFound, UserCreated] = await db.users.findOrCreate({ 
+                where: {email: user.userData.email},
+                defaults: { first_name: userInfo.first_name, last_name: userInfo.last_name, email: userInfo.email, password: userInfo.password, premium: userInfo.premium, roleId: role.id, abonnementId: userInfo.abonnementId, schoolId: userInfo.schoolId}
+            })
         }
 
-        const userInfo = user.userData
-
-        const [userFound, UserCreated] = await db.users.findOrCreate({ 
-            where: {email: user.userData.email},
-            defaults: { first_name: userInfo.first_name, last_name: userInfo.last_name, email: userInfo.email, password: userInfo.password, premium: userInfo.premium, roleId: role.id, abonnementId: userInfo.abonnementId, schoolId: userInfo.schoolId}
-        })
+        return(true)
+        
+    } catch (error) {
+        console.log(error)
+        // return(error)
     }
+
 }
 
 const retrySync = () => {
@@ -118,7 +151,7 @@ const retrySync = () => {
         .then(() => {
             initRoles()
                 .then (() => {
-                    initVideos();
+                    initVideos()
                     initUsers()
                 })
         })
@@ -151,7 +184,7 @@ require('./app/routes/video.routes')(app);
 require('./app/routes/school.routes')(app);
 
 //Cours routes
-// require('./app/routes/cours.routes')(app);
+require('./app/routes/cours.routes')(app);
 
 // set port, listen for requests
 const PORT = process.env.API_PORT || 8082;

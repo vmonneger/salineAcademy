@@ -39,7 +39,7 @@ const datas = {
             sousTitre: "Français",
             langue: "Français",
             master: "Peter Bruns",
-            instrument: "Cello",
+            instrument: "Violoncelle",
             compositeur: "Ludwig van Beethoven",
             description: "In this masterclass, professor Peter Bruns is accompanied by young South-Korean student Jungin Huh, who will be playing Beethoven's second Cello Sonata, Opus five, number two. After listening with great attention to his young student's performance, Professor Peter Bruns emphasizes the importance of articulation and rhythm in the first adagio. He also insists on vibrato and dynamic control, for they are crucial in certain sections of the piece. Professor Bruns reminds young cellist Jungin Huh she should relate more to the bass line for a better overall sound as well as aiming for fewer bow changes and finding the right tension and character, for that is quite important!"
         },
@@ -50,7 +50,7 @@ const datas = {
             sousTitre: "Français",
             langue: "Anglais",
             master: "François Le Roux",
-            instrument: "Voice",
+            instrument: "Chant",
             compositeur: "Albert Roussel",
             description: "About this voice masterclass:\n\nDeux poèmes chinois by Albert Roussel\nRecorded with Albert Roussel and Tomoyo Harada in April 2021.\n\nFrançois Le Roux and Tomoyo Harada explore the comic nature of Roussel's piece, the context, and the silences.\n\n0:00 Intro and playing part\n1:55 Advice part\n\nProfessor François Le Roux and student Tomoyo Harada take on Albert Roussel’s Deux poèmes Chinois, Op. 12, À un jeune gentilhomme and Amoureux séparés.\n\nHarada is instructed to work on her diction and articulation, as well as her breathing. She is also encouraged to approach the piece with more gaiety and sing it like a play. Roussel adapted Chinese-to-English-to-French texts to showcase China as a mythical and mysterious country, as seen from the European perspective of the 1920s.\n\nMoreover, Harada is cautioned against ending her sentences too quickly and rushing them. Le Roux suggests she practices first by speaking the lyrics before singing them.\n\nWhat we learn:\n- Remaining relaxed and avoid rushing\n- Breathing techniques\n- Diction.\n- Practicing strategies.\n- Understanding the historical context of the piece."
         },
@@ -106,7 +106,7 @@ const datas = {
             sousTitre: "anglais",
             langue: "anglais",
             master: "michel dalberto",
-            instrument: "piano",
+            instrument: "Piano",
             compositeur: "ludwig van beethoven"
         },
         {
@@ -116,7 +116,7 @@ const datas = {
             sousTitre: "anglais",
             langue: "anglais",
             master: "philippe bernold",
-            instrument: "flute",
+            instrument: "Flûte",
             compositeur: "carl reinecke",
             url: "https://www.youtube.com/embed/xWEBbAQPzTU?si=nVMMNW5V_AcolVxI"
         }    

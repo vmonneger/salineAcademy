@@ -64,7 +64,9 @@ db.users.belongsTo(db.school);
 db.licence_mail.belongsTo(db.licence)
 
 // School's relations
+db.licence.hasOne(db.school)
 db.school.belongsTo(db.licence)
+db.school.hasMany(db.users)
 
 // Video's relations
 db.video.hasMany(db.langue)
