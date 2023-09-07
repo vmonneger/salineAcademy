@@ -10,34 +10,36 @@ const Format = db.format;
 
 
 exports.getAll = async (req, res) => {
+
+    console.log('<================> get all videos <================> ')
     const videos = await Video.findAll({
         include: [
             {
                 model: SousTitre,
                 attributes: ['name'],
-                required: true
+                
             },
             {
                 model: Master,
                 attributes: ['name'],
-                required: true
+                
             },
             {
                 model: Langue,
                 attributes: ['name'],
-                required: true
+                
             },
             {
                 model: Instrument,
                 attributes: ['name'],
-                required: true
+                
             },
             {
                 model: Format,
                 attributes: ['name'],
-                required: true,
+                
             },
-        ]
+        ],
     });
 
     res.status(200).send({ data: videos });
