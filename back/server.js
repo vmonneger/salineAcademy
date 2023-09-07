@@ -151,7 +151,7 @@ const retrySync = () => {
         .then(() => {
             initRoles()
                 .then (() => {
-                    initVideos()
+                    // initVideos();
                     initUsers()
                 })
         })
