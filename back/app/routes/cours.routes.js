@@ -7,5 +7,9 @@ module.exports = function(app) {
 
     app.get('/teacher/cours', controller.getCoursFromTeacher);
 
-    app.get('/student/cours', controller.getCoursFromStudent)
+    app.get('/student/cours', controller.getCoursFromStudent);
+
+    app.put('/cours', controller.updateCours);
+
+    app.delete('/cours', controller.deleteCours);
 }

@@ -147,7 +147,7 @@ const initUsers = async () => {
 }
 
 const retrySync = () => {
-    db.sequelize.sync()
+    db.sequelize.sync({alter: true})
         .then(() => {
             initRoles()
                 .then (() => {

@@ -5,6 +5,7 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     host: dbConfig.HOST,
     port: dbConfig.port,
     dialect: dbConfig.dialect,
+    logging: false,
     pool: {
         max: dbConfig.pool.max,
         min: dbConfig.pool.min,
@@ -96,16 +97,16 @@ db.compositeur.belongsTo(db.video)
 db.commentaires.belongsTo(db.video)
 
 // Cours's relations
-db.cours.hasOne(db.professeur)
-db.cours.hasMany(db.cours_commentaire)
-db.cours.hasMany(db.cours_compositeur)
-db.cours.hasMany(db.cours_format)
-db.cours.hasMany(db.cours_instrument)
-db.cours.hasMany(db.cours_langue)
-db.cours.hasMany(db.cours_master)
-db.cours.hasMany(db.cours_sousTitre)
-db.cours.hasMany(db.cours_student)
-db.cours.hasMany(db.cours_video)
+db.cours.hasOne(db.professeur, { onDelete: 'CASCADE' })
+db.cours.hasMany(db.cours_commentaire, { onDelete: 'CASCADE' })
+db.cours.hasMany(db.cours_compositeur, { onDelete: 'CASCADE' })
+db.cours.hasMany(db.cours_format, { onDelete: 'CASCADE' })
+db.cours.hasMany(db.cours_instrument, { onDelete: 'CASCADE' })
+db.cours.hasMany(db.cours_langue, { onDelete: 'CASCADE' })
+db.cours.hasMany(db.cours_master, { onDelete: 'CASCADE' })
+db.cours.hasMany(db.cours_sousTitre, { onDelete: 'CASCADE' })
+db.cours.hasMany(db.cours_student, { onDelete: 'CASCADE' })
+db.cours.hasMany(db.cours_video, { onDelete: 'CASCADE' })
 db.cours.belongsTo(db.users)
 
 db.cours_commentaire.belongsTo(db.users)
