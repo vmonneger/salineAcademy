@@ -6,6 +6,10 @@ const Video = db.video;
 
 exports.createCour = async (req, res) => {
     try {
+
+        if (!(req.body.videos instanceof Array)) {
+            return res.status(500).send({message: 'please check data types'});
+        }
         const videos = req.body.videos;
         const titre = req.body.titre;
         const description = req.body.description;
