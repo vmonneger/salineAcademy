@@ -7,9 +7,10 @@ const Video = db.video;
 exports.createCour = async (req, res) => {
     try {
 
-        if (!(req.body.videos instanceof Array)) {
-            return res.status(500).send({message: 'please check data types'});
+        if (!(req.body.videos instanceof Array) || !(req.body.students instanceof Array)) {
+            return res.status(500).send({message: 'please check data'});
         }
+
         const videos = req.body.videos;
         const titre = req.body.titre;
         const description = req.body.description;
@@ -79,11 +80,11 @@ exports.getCoursFromTeacher = async (req, res) => {
 
                 let value = await instrument.getInstrument();
 
-                const searchInstrunment = datas.find(data => (data === value.name))
+                const searchInstrument = datas.find(data => (data === value.name))
 
                 if(searchInstrument === undefined)
 
-                datas.push(vlue.name)
+                datas.push(value.name)
             }
 
             element.dataValues.instruments = datas
@@ -187,6 +188,10 @@ exports.updateCours = async (req, res) => {
 
         if(req.body.videos) {
 
+            if (!(req.body.videos instanceof Array)) {
+                return res.status(500).send({message: 'please check data'});
+            }
+
             const newVideos = req.body.videos
             
     
@@ -258,6 +263,10 @@ exports.updateCours = async (req, res) => {
         }
 
         if(req.body.students) {
+
+            if (!(req.body.students instanceof Array)) {
+                return res.status(500).send({message: 'please check data'});
+            }
 
             const previousStudents = await cours.getCours_students();
 
