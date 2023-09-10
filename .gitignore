@@ -4,3 +4,4 @@ nginx/certs/certificate.crt
 nginx/certs/private.key
 
 certbot/
+.DS_Store

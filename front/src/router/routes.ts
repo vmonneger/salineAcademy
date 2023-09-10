@@ -47,9 +47,15 @@ const routes: RouteRecordRaw[] = [
         meta: { requiresAuth: true, title: 'Catalogue' },
       },
       {
-        path: 'courses',
-        name: 'Courses',
-        component: () => import('pages/CoursesPage.vue'),
+        path: 'courses-teacher',
+        name: 'CoursesTeacher',
+        component: () => import('pages/CoursesTeacherPage.vue'),
+        meta: { requiresAuth: true, title: 'Mes cours' },
+      },
+      {
+        path: 'courses-student',
+        name: 'CoursesStudent',
+        component: () => import('pages/CoursesStudentPage.vue'),
         meta: { requiresAuth: true, title: 'Mes cours' },
       },
       {

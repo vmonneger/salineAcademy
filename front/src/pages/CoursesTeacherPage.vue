@@ -4,4 +4,4 @@
  */
 </script>
 
-<template>PAGE DES COURS</template>
+<template>PAGE DES COURS Prof</template>
