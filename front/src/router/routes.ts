@@ -10,11 +10,13 @@ const routes: RouteRecordRaw[] = [
     path: '/auth/register',
     name: 'Register',
     component: () => import('pages/AuthPage.vue'),
+    meta: { title: 'Enregistrement' },
   },
   {
     path: '/auth/login',
     name: 'Login',
     component: () => import('pages/AuthPage.vue'),
+    meta: { title: 'Connexion' },
   },
   {
     path: '/auth/logout',
@@ -43,6 +45,24 @@ const routes: RouteRecordRaw[] = [
         name: 'Catalog',
         component: () => import('pages/CatalogPage.vue'),
         meta: { requiresAuth: true, title: 'Catalogue' },
+      },
+      {
+        path: 'courses-teacher',
+        name: 'CoursesTeacher',
+        component: () => import('pages/CoursesTeacherPage.vue'),
+        meta: { requiresAuth: true, title: 'Mes cours' },
+      },
+      {
+        path: 'courses-student',
+        name: 'CoursesStudent',
+        component: () => import('pages/CoursesStudentPage.vue'),
+        meta: { requiresAuth: true, title: 'Mes cours' },
+      },
+      {
+        path: 'license',
+        name: 'License',
+        component: () => import('pages/LicensePage.vue'),
+        meta: { requiresAuth: true, title: 'Licence' },
       },
     ],
   },
