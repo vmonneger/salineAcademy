@@ -2,31 +2,25 @@
 /**
  * @file Page for register Licence.
  */
-import { computed, watchEffect, ref } from 'vue'
-import {useUserStore} from 'stores/user'
-import { notificationSaved } from 'src/helpers/notifications';
+import { computed, ref } from 'vue'
+import { useAdminStore } from 'stores/admin'
+import { notificationSaved } from 'src/helpers/notifications'
+import { QuasarFileMetadata } from 'src/types/types'
 import { AppHeading, AppButton, AppModal } from 'components'
 
-interface QuasarFileMetadata extends Blob {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [x: string]: any
-  __img?: string
-  __key?: string
-  __progress?: number
-  __progressLabel?: string
-  __sizeLabel?: string
-  __status?: string
-  __uploaded?: number
-  lastModified?: number
-  lastModifiedDate?: Date
-  name?: string
-  webkitRelativePath?: string
+type Rows = {
+  name: string
+  email: string
+  role: string
 }
 
-const userStore = useUserStore()
+const adminStore = useAdminStore()
 
 const modalState = ref(false)
 const loading = ref(false)
+
+// const schools = computed(() => adminStore.schools)
+// const users = computed(() => adminStore.users)
 
 const toggleModal = () => {
   modalState.value = !modalState.value
@@ -35,14 +29,11 @@ const toggleModal = () => {
 /**
  * Upload file use store action.
  */
- const uploadFile = async (files: Array<QuasarFileMetadata>) => {
+const uploadFile = async (file: Array<QuasarFileMetadata>) => {
   try {
-    await userStore.addFile({
-      file: files[0],
-    })
+    await adminStore.uploadCSV(file[0])
     notificationSaved()
   } catch (error) {
-    
   } finally {
     toggleModal()
   }
@@ -61,70 +52,61 @@ const columns = [
   { name: 'role', align: 'right', label: 'Role', field: 'role', sortable: true },
 ]
 
-const rows = [
+const testschools = [
   {
-    name: 'Frozen Yogurt',
-    email: 'sidfidfif@jeanfrancoisduchere.com',
-    role: 'STUDENT',
+    name: 'le nom ecoooole',
+    id: 1,
   },
   {
-    name: 'Ice cream sandwich',
-    email: 'sidfidfif@jeanfrancoisduchere.com',
-    role: 'TEACHER',
+    name: 'le nom popopo',
+    id: 2,
   },
   {
-    name: 'Frozen Yogurt',
-    email: 'sidfidfif@jeanfrancoisduchere.com',
-    role: 'STUDENT',
-  },
-  {
-    name: 'Ice cream sandwich',
-    email: 'sidfidfif@jeanfrancoisduchere.com',
-    role: 'TEACHER',
-  },
-  {
-    name: 'Frozen Yogurt',
-    email: 'sidfidfif@jeanfrancoisduchere.com',
-    role: 'STUDENT',
-  },
-  {
-    name: 'Ice cream sandwich',
-    email: 'sidfidfif@jeanfrancoisduchere.com',
-    role: 'TEACHER',
-  },
-  {
-    name: 'Frozen Yogurt',
-    email: 'sidfidfif@jeanfrancoisduchere.com',
-    role: 'STUDENT',
-  },
-  {
-    name: 'Ice cream sandwich',
-    email: 'sidfidfif@jeanfrancoisduchere.com',
-    role: 'TEACHER',
-  },
-  {
-    name: 'Frozen Yogurt',
-    email: 'sidfidfif@jeanfrancoisduchere.com',
-    role: 'STUDENT',
-  },
-  {
-    name: 'Ice cream sandwich',
-    email: 'sidfidfif@jeanfrancoisduchere.com',
-    role: 'TEACHER',
-  },
-  {
-    name: 'Frozen Yogurt',
-    email: 'sidfidfif@jeanfrancoisduchere.com',
-    role: 'STUDENT',
-  },
-  {
-    name: 'Ice cream sandwich',
-    email: 'sidfidfif@jeanfrancoisduchere.com',
-    role: 'TEACHER',
+    name: 'le nom moomomo',
+    id: 3,
   },
 ]
 
-// const test = computed(() => console.log(sidebar.show))
+const testusers = [
+  {
+    school: 'le nom ecoooole',
+    name: 'FRancois machin',
+    email: 'truc@truc.com',
+    role: 'STUDENT',
+  },
+  {
+    school: 'le nom popopo',
+    name: 'ZAZAZA lolo',
+    email: 'truc@truc.com',
+    role: 'STUDENT',
+  },
+  {
+    school: 'le nom moomomo',
+    name: 'Steve mala',
+    email: 'sssss@truc.com',
+    role: 'STUDENT',
+  },
+  {
+    school: 'le nom popopo',
+    name: 'Koko lolo',
+    email: 'truc@truc.com',
+    role: 'STUDENT',
+  },
+]
+
+const users = computed<Map<string, Rows[]>>(() => {
+  const usersMap = new Map()
+
+  testusers.forEach((user) => {
+    const { school, ...userWithoutSchool } = user
+
+    if (!usersMap.has(school)) {
+      usersMap.set(school, [])
+    }
+    usersMap.get(school).push(userWithoutSchool)
+  })
+  return usersMap
+})
 </script>
 
 <template>
@@ -136,26 +118,19 @@ const rows = [
       <div class="col-auto">
         <AppButton @click="toggleModal">Ajouter une école</AppButton>
         <AppModal v-model="modalState" title="Uploader un CSV">
-          <q-uploader
-          ref="fileInput"
-          class="rounded-borders items-center justify-center q-pa-md full-width full-height col"
-          accept=".pdf, .jpg, .jpeg, .png, .mp4"
-          max-file-size="5242880"
-          :factory="uploadFile"
-          style="max-width: 300px"
-        >
+          <div class="row">
+            <q-uploader ref="fileInput" class="col-12" accept=".csv" max-file-size="5242880" :factory="uploadFile" />
+          </div>
         </AppModal>
       </div>
     </div>
-    <div class="col-12">
+    <div v-for="school in testschools" :key="school.id" class="col-12">
       <q-list bordered class="rounded-borders">
-        <q-expansion-item expand-separator label="Le nom de l'école">
+        <q-expansion-item expand-separator :label="school.name">
           <q-card-section>
             <q-table
-              title="Le nom de l'école"
-              :grid="$q.screen.xs"
-              :dense="$q.screen.lt.md"
-              :rows="rows"
+              :title="school.name"
+              :rows="users.size === 0 ? [] : users.get(school.name)"
               :columns="columns"
               row-key="email"
             />
@@ -168,8 +143,6 @@ const rows = [
 
 <style>
 .q-table {
-  /* table-layout: fixed; */
-  /* overflow-x: scroll; */
   width: 100%;
 }
 </style>
