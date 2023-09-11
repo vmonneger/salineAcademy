@@ -15,6 +15,7 @@ export interface AuthActions extends PiniaActionTree {
   login: (user: { email: string; password: string }) => void
   checkAuth: () => void
   logout: () => void
+  updatePassword: (newPassword: string) => void
 }
 
 export type AuthStore = Store<'Auth', AuthState, AuthGetters, AuthActions>

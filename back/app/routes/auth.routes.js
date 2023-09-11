@@ -7,5 +7,5 @@ module.exports = function(app) {
     app.post('/auth/signin', controller.signIn);
     app.post('/auth/logout', controller.logout);
     app.get('/auth/check-auth', controller.checkAuth);
-    app.post('auth/update-password', [auth.isLoggedIn], controller.updatePassword);
+    app.post('/auth/update-password', [auth.isLoggedIn], controller.updatePassword);
 };
