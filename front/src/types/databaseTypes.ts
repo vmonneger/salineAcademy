@@ -10,3 +10,9 @@ export type User = {
   role?: string
   premium?: boolean
 }
+
+export type School = {
+  id?: number
+  licenceId?: 3
+  name?: string
+}
