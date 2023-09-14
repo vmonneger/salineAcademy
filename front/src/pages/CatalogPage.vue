@@ -2,11 +2,23 @@
 /**
  * @file Index page.
  */
-import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import TheFilterVideos from 'src/features/catalog/TheFilterVideos.vue'
 import { AppInput, AppHeading, AppCardVideo, AppTag } from 'components'
+import { useVideoStore } from 'stores/video'
+
+const videoStore = useVideoStore()
 
 const videoFilters = ref([] as string[])
+const videos = computed(() => videoStore.videos)
+
+onMounted(async () => {
+  try {
+    await videoStore.getVideos()
+  } catch (error) {
+    console.error(error)
+  }
+})
 
 const handleVideoFilters = (filtersArray: Array<string>) => {
   videoFilters.value = filtersArray
@@ -38,13 +50,13 @@ const handleTagFilters = (filterTag: string) => {
       </div>
     </div>
     <div class="col-12 row">
-      <div class="col-12 col-sm-4 col-md-3" v-for="(item, index) in ['1', '2', '3', '4', '5', '6']" :key="index">
+      <div class="col-12 col-sm-4 col-md-3" v-for="(video, index) in videos" :key="index">
         <AppCardVideo
-          image="https://images.unsplash.com/photo-1497032205916-ac775f0649ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-          badgeName="Le badge"
-          :title="`Le titre - ${item}`"
-          subtitle="Le sous titre"
-          description="La description qui est ceci cela La description qui est ceci cela La description qui est ceci cela La description qui est ceci cela La description qui est ceci cela"
+          :image="video.url"
+          :badgeName="video.format.name"
+          :title="video.title"
+          :subtitles="video.sous_titres"
+          :description="video.description"
         />
       </div>
     </div>
