@@ -72,4 +72,14 @@ export const actions: PiniaActions<AuthStore> = {
       })
     }
   },
+
+  async updatePassword(newPassword) {
+    const userStore = useUserStore()
+
+    await api.post('auth/update-password', {
+      userId: userStore.id,
+      password: newPassword,
+    })
+
+  },
 }

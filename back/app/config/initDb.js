@@ -13,7 +13,7 @@ const datas = {
         {
             format: "Masterclass",
             title: "PIANO masterclass by Stephen Kovacevich | Ballade No. 4 in F Minor, Op. 52. by Frédéric Chopin",
-            url: "https://www.youtube.com/embed/2DNQciW0-eM?si=TOizRrfwFl7SFdCW",
+            url: "https://img.youtube.com/vi/2DNQciW0-eM/hqdefault.jpg",
             sousTitre: "Français",
             langue: "Anglais",
             master: "Stephen Kovacevich",
@@ -24,7 +24,7 @@ const datas = {
         {
             format: "Masterclass",
             title: "VIOLIN masterclass by Miriam FRIED | Mozart, Concerto No. 5 in A Major, 1st movement",
-            url: "https://www.youtube.com/embed/2DNQciW0-eM?si=kEnHTdeKfGxlshX3",
+            url: "https://img.youtube.com/vi/htjRBaAhGRw/hqdefault.jpg",
             sousTitre: "Anglais",
             langue: "Français",
             master: "Miriam Fried",
@@ -35,7 +35,7 @@ const datas = {
         {
             format: "Masterclass",
             title: "Cello masterclass by Peter Bruns | Cello Sonata No.2 by Beethoven",
-            url: "http://www.youtube.com/embed/Xm-fwfdHVDg?si=TandS3gAVJRQH6sx",
+            url: "https://img.youtube.com/vi/Xm-fwfdHVDg/hqdefault.jpg",
             sousTitre: "Français",
             langue: "Français",
             master: "Peter Bruns",
@@ -46,7 +46,7 @@ const datas = {
         {
             format: "Masterclass",
             title: "VOICE masterclass by François LE ROUX | Albert ROUSSEL, Deux poèmes chinois",
-            url: "https://www.youtube.com/embed/5koUocxAEYQ?si=f_gm74fKu05GWuoY",
+            url: "https://img.youtube.com/vi/5koUocxAEYQ/hqdefault.jpg",
             sousTitre: "Français",
             langue: "Anglais",
             master: "François Le Roux",
@@ -57,7 +57,7 @@ const datas = {
         {
             format: "Masterclass",
             title: "VIOLON masterclass par Ning Feng | Sonate pour violon n° 1 en sol mineur de Johann Sebastian Bach",
-            url: "https://www.youtube.com/embed/tkWuuj8R_Vs?si=Iv6-Lu1bjWDytzKv",
+            url: "https://img.youtube.com/vi/tkWuuj8R_Vs/hqdefault.jpg",
             description: "Dans cette masterclass, le professeur Ning Feng est accompagné de la jeune étudiante en violon Aijia Li, qui interprétera la première sonate de Bach (n° 1 en sol mineur, BWV 1001). Elle jouera spécifiquement les deux dernières parties, Siciliana et Presto, extraites d'un ensemble de six œuvres composées par Johann Sebastian Bach. En anglais, elles sont souvent désignées sous le nom de \"sonates et partitas pour violon solo\". Le professeur Ning Feng écoute son interprétation très attentivement et la félicite tout en partageant quelques ajustements qu'elle peut apporter. Il apprécie beaucoup son tempo et sa manière de danser avec la musique, cependant, son émotion ne doit pas éclipser ce que Bach exprime dans cette pièce spécifique. Il y a un chemin naturel dans ce mouvement que l'émotion personnelle peut emprunter. Il devient alors difficile de comprendre les annotations ou toute autre spécification ou mention du compositeur. Feng nous rappelle à quel point il est nécessaire de prendre du recul et de s'assurer que notre compréhension de la composition n'est pas obscurcie par un jugement émotionnel.\n\nCe que nous apprenons :\n\n- Rester concentré,\n- Comprendre les changements subtils suggérés par des annotations telles que \"pochissimo\",\n- Comment obtenir un son plus naturel,\n- L'articulation pour un résultat plus fluide,\n- Comment éviter de répéter certains schémas.",
             sousTitre: "Français",
             langue: "Francais",
@@ -68,7 +68,7 @@ const datas = {
         {
             format: "Masterclass",
             title: "Cello masterclass by Sung-Won Yang | Cello Concerto in B minor, Op. 104 by Antonín Dvořák",
-            url: "https://www.youtube.com/embed/rYnDmh8gyC8?si=rs9Td62mvg9xZTXX",
+            url: "https://img.youtube.com/vi/rYnDmh8gyC8/hqdefault.jpg",
             description: "In this masterclass, Professor Sung-Won Yang is accompanied by young cellist Jiyoung Noh who works on improving her performance of the first and second movement of the Cello Concerto in B minor, Op. 104, B. 191, the last solo concerto by Antonín Dvořák. It was written in 1894 and was premiered in London on March 19, 1896.\nDifficulties discussed include intonation, technique, imagination, and knowing the score written for the orchestra. Understanding the structure of the piece, including the different tempo markings, is emphasized as crucial to expressing the music fully. Specific sections, such as the opening of the second theme, are worked on with a focus on rhythm, phrasing, and articulation. Professor Yang stresses the importance of phrasing, breathing, and understanding the structure, as well as exploring different sections of the piece to develop a clear understanding.",
             sousTitre: "Anglais",
             langue: "Anglais",
@@ -79,7 +79,7 @@ const datas = {
         {
             format: "Masterclass",
             title: "OBOE masterclass by Alexei Ogrintchouk | Oboe Concerto, TrV 292, 1st movement by Richard Strauss",
-            url: "https://www.youtube.com/embed/kPkuSiiXH4Q?si=eewL9-xldirbsbuY",
+            url: "https://img.youtube.com/vi/kPkuSiiXH4Q/hqdefault.jpg",
             description: "In this masterclass, Alexei Ogrintchouk works with Josef Vik to capture the long lines and expressivity in the first movement of Strauss’ Oboe Concerto. He begins with mentioning the unusually light quality of this work by Strauss, and thus the importance of bringing that quality out. He helps the student achieve long, legato musical lines that lack unwanted accents. He encourages the student to relax and play stress-free, as that is what the music calls for. He cautions the student against shortening slurred notes, as this detracts from the music. He also demonstrates how to articulate clearly and cleanly without adding unwanted heaviness to the front of articulated notes. Much of the class is spent on phrasing. The student learns to have musical direction at all times, particularly on notes with long values, which must always be leading toward or away from somewhere. Ogrintchouk helps the student find the tension and release in the phrases and therefore sound more intentional in his musical ideas.",
             sousTitre: "Anglais",
             langue: "Anglais",
@@ -90,7 +90,7 @@ const datas = {
         {
             format: "Masterclass",
             title: "PIANO masterclass by Olivier Gardon | Vallée d'Obermann (Années de pèlerinage) by Franz Liszt",
-            url: "https://www.youtube.com/embed/7XyqgZNTLA8?si=x50Ck2cpAICCPaiM",
+            url: "https://img.youtube.com/vi/7XyqgZNTLA8/hqdefault.jpg",
             description: "In this masterclass, Professor Gardon explains the difficulty of sharing emotions while playing and congratulates his student on his beautiful understanding of Liszt's work. It is not enough to feel it deeply, hoping audiences will pick up on it, he says. It is the work of the musician to share and transmit emotions and perceptions. While being emotive or sensible during interpretation doesn't hinder it, one should not succumb to emotions and should always try to keep a clear head. He then proceeds to extensively guide Hugo towards a better understanding of technical annotations and other various alterations on the piano, for this kind of focus is an efficient way to keep a calm mind while playing.",
             sousTitre: "Anglais",
             langue: "Anglais",
@@ -101,7 +101,7 @@ const datas = {
         {
             format: "Masterclass",
             title: "piano masterclass by michel dalberto | beethoven, piano concerto no. 4 in g major, op. 58",
-            url: "https://www.youtube.com/embed/KCCTccR4OiM?si=dZ6YK34JzqmNc-ZL",
+            url: "https://img.youtube.com/vi/KCCTccR4OiM/hqdefault.jpg",
             description: "professor michel dalberto gives a historical overview that provides insight on how to play beethoven’s fourth piano concerto, including the emotional state beethoven was in, how others have performed the piece, as well as the italian influence in the music. dalberto works with student virgile roche to find the right sound quality and timing in the difficult opening, in which the piano begins the piece alone. he discusses how to play the grace notes and trills in the way that best reflects the style of the piece, and offers suggestions for pedal use and efficient fingerings. as someone with experience playing the piece with orchestra, dalberto also shares the musical decisions, especially in regard to dynamics and phrasing, that he has found to work best with the accompaniment.",
             sousTitre: "anglais",
             langue: "anglais",
@@ -118,7 +118,7 @@ const datas = {
             master: "philippe bernold",
             instrument: "Flûte",
             compositeur: "carl reinecke",
-            url: "https://www.youtube.com/embed/xWEBbAQPzTU?si=nVMMNW5V_AcolVxI"
+            url: "https://img.youtube.com/vi/xWEBbAQPzTU/hqdefault.jpg"
         }    
     ],
 
