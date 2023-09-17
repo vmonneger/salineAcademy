@@ -4,13 +4,14 @@
  */
 import { ref, onMounted, computed } from 'vue'
 import TheFilterVideos from 'src/features/catalog/TheFilterVideos.vue'
-import { AppInput, AppHeading, AppCardVideo, AppTag } from 'components'
+import { AppHeading, AppCardVideo, AppText as txt } from 'components'
 import { useVideoStore } from 'stores/video'
+import { Video } from 'stores/video/types'
 
 const videoStore = useVideoStore()
 
-const videoFilters = ref([] as string[])
-const videos = computed(() => videoStore.videos)
+const videos = ref([] as Array<Video>)
+const videosStore = computed(() => videoStore.videos)
 
 onMounted(async () => {
   try {
@@ -20,12 +21,8 @@ onMounted(async () => {
   }
 })
 
-const handleVideoFilters = (filtersArray: Array<string>) => {
-  videoFilters.value = filtersArray
-}
-
-const handleTagFilters = (filterTag: string) => {
-  return (videoFilters.value = videoFilters.value.filter((filter) => filter !== filterTag))
+const getVideoFiltered = (videosFiltered: Array<Video>) => {
+  videos.value = videosFiltered
 }
 </script>
 
@@ -34,28 +31,19 @@ const handleTagFilters = (filterTag: string) => {
     <div class="col-12">
       <AppHeading>Catalogue des masterclass</AppHeading>
     </div>
-    <div class="col-12 col-sm-6">
-      <AppInput
-        size="lg"
-        placeholder="Rechercher un professeur, un compositeur, un instrument, un morceau"
-        iconRight="sym_s_search"
-      />
+    <div class="col-12">
+      <TheFilterVideos @videosFiltered="getVideoFiltered" :videos="videosStore" style="width: 100%" />
     </div>
-    <div class="col-12 col-sm-4 col-md-auto">
-      <TheFilterVideos v-model="videoFilters" @filters="handleVideoFilters" style="width: 100%" />
-    </div>
-    <div v-if="videoFilters.length" class="col-12 row q-gutter-md">
-      <div v-for="filter in videoFilters" :key="filter">
-        <AppTag @delete-tag="handleTagFilters(filter)">{{ filter }}</AppTag>
+    <div class="col-12 row justify-center">
+      <div v-if="!videos.length" class="q-mt-xl">
+        <txt size="lg" color="neutral">Aucune vidéo n'a été trouvée</txt>
       </div>
-    </div>
-    <div class="col-12 row">
       <div class="col-12 col-sm-4 col-md-3" v-for="(video, index) in videos" :key="index">
         <AppCardVideo
           :image="video.url"
           :badgeName="video.format.name"
           :title="video.title"
-          :subtitles="video.sous_titres"
+          :langues="video.langues"
           :description="video.description"
         />
       </div>
