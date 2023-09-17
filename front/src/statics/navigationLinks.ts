@@ -9,7 +9,7 @@ export const SIDEBAR_ARCHITECTURE = [
     position: SidebarPosition.Top,
     links: ['Catalog', 'CoursesTeacher', 'CoursesStudent', 'License'],
   },
-  { position: SidebarPosition.Dropdown, links: ['Profil', 'Logout'] },
+  { position: SidebarPosition.Dropdown, links: ['Profile', 'Logout'] },
 ]
 
 export const ALL_SIDEBAR_LINKS = new Map([
@@ -55,10 +55,10 @@ export const ALL_SIDEBAR_LINKS = new Map([
     },
   ],
   [
-    'Profil',
+    'Profile',
     {
       label: 'Profil',
-      link: 'Profil',
+      link: 'Profile',
       icon: 'sym_s_person',
     },
   ],
