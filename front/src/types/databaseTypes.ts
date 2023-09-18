@@ -16,3 +16,12 @@ export type School = {
   licenceId?: 3
   name?: string
 }
+
+export type Course = {
+  id?: number
+  title?: string
+  description?: string
+  createdAt?: Date
+  updatedAt?: Date
+  userId?: number
+}

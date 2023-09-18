@@ -4,18 +4,23 @@
  */
 import { ref, onMounted, computed } from 'vue'
 import TheFilterVideos from 'src/features/catalog/TheFilterVideos.vue'
-import { AppHeading, AppCardVideo, AppText as txt } from 'components'
+import { useQueryState } from 'src/composable/useQueryState'
 import { useVideoStore } from 'stores/video'
 import { Video } from 'stores/video/types'
+import { AppHeading, AppCardVideo, AppText as txt } from 'components'
 
 const videoStore = useVideoStore()
+const { isQueryFetched } = useQueryState()
 
 const videos = ref([] as Array<Video>)
+
 const videosStore = computed(() => videoStore.videos)
 
 onMounted(async () => {
   try {
-    await videoStore.getVideos()
+    await isQueryFetched('getVideos', async () => {
+      await videoStore.getVideos()
+    })
   } catch (error) {
     console.error(error)
   }

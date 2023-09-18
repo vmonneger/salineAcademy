@@ -23,7 +23,7 @@ const props = withDefaults(defineProps<AppCardProps>(), {
 
 <template>
   <q-card
-    class="app-card-video"
+    class="app-card-video cursor-pointer"
     :class="`${props.fit ? 'fit' : ''}
     ${props.noPadding ? '' : $slots.title ? '' : props.padding}`"
   >

@@ -20,4 +20,12 @@ export {
   AppCard,
 } from './atoms/index'
 
-export { TheHeader, TheSidebar, TheDropdownProfile, AppCardVideo, AppModal } from './molecules/index'
+export {
+  TheHeader,
+  TheSidebar,
+  TheDropdownProfile,
+  AppCardVideo,
+  AppModal,
+  AppFormGroupButton,
+  AppModalBig,
+} from './molecules/index'
