@@ -7,8 +7,6 @@ const queriesFetched = reactive(new Map<string, boolean>())
 
 /**
  * Check if a query is fetched and if not it is registered in an array.
- *
- * @returns {object} - Queries fetched in an array and function to check if fetched.
  */
 export const useQueryState = () => {
   /**

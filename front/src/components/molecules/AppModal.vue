@@ -91,7 +91,7 @@ defineExpose({
             outline
             :color="props.btnSecondaryColor"
             :loading="props.btnSecondaryLoading"
-            :label="props.btnSecondaryName ?? $t('form_button_cancel')"
+            :label="props.btnSecondaryName ?? 'Annuler'"
             :class="`${props.verticalDisplay ? 'col-12 order-last' : 'app-btn-secondary'}`"
             @click="$emit('clickBtnSecondary')"
           />
@@ -99,7 +99,7 @@ defineExpose({
             v-if="props.btnPrimary || props.btnPrimaryName"
             :color="props.btnPrimaryColor"
             :loading="props.btnPrimaryLoading"
-            :label="props.btnPrimaryName ?? $t('form_button_save')"
+            :label="props.btnPrimaryName ?? 'Enregistrer'"
             :class="`${props.verticalDisplay ? 'col-12 q-mb-md' : 'app-btn-primary'}`"
             @click="$emit('clickBtnPrimary')"
           />
