@@ -66,21 +66,23 @@ const handleSubmit = async () => {
     <div v-if="isRegister" class="col-6">
       <AppInput
         v-model="form.firstName"
-        name="firstName"
+        name="first-name"
         type="text"
         required
         label="Prénom"
         placeholder="Entrez votre prénom"
+        data-cy="firstname"
       />
     </div>
     <div v-if="isRegister" class="col-6">
       <AppInput
         v-model="form.lastName"
-        name="lastName"
+        name="last-name"
         type="text"
         required
         label="Nom"
         placeholder="Entrez votre nom"
+        data-cy="lastname"
       />
     </div>
 
@@ -92,6 +94,7 @@ const handleSubmit = async () => {
         required
         label="Email"
         placeholder="Entrez votre email"
+        data-cy="email"
       />
     </div>
     <div class="col-12">
@@ -103,6 +106,7 @@ const handleSubmit = async () => {
         class="col-12"
         placeholder="Entrez votre mot de passe"
         type="password"
+        data-cy="password"
       />
     </div>
     <div v-if="isRegister" class="col-12">
@@ -116,10 +120,11 @@ const handleSubmit = async () => {
         :rules="ruleVerifyPassword(form.password)"
         lazy-rules
         type="password"
+        data-cy="password-match"
       />
     </div>
     <div class="col-12 text-center q-mb-md">
-      <AppButton :loading="loading" class="fit" type="submit">{{
+      <AppButton :loading="loading" class="fit" type="submit" data-cy="submit">{{
         isRegister ? "S'enregister" : 'Connexion'
       }}</AppButton>
     </div>
