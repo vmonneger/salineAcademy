@@ -11,7 +11,8 @@
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
     "build": "QENV=PROD quasar build",
-    "serve": "$(pnpm bin -g)/quasar serve --history ./dist/spa -p 9000"
+    "serve": "$(pnpm bin -g)/quasar serve --history ./dist/spa -p 9000",
+    "cypress:open": "cypress open "
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
@@ -30,6 +31,7 @@
     "@typescript-eslint/eslint-plugin": "^5.59.9",
     "@typescript-eslint/parser": "^5.59.9",
     "autoprefixer": "^10.4.14",
+    "cypress": "^13.2.0",
     "dotenv": "^16.3.1",
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^8.8.0",
