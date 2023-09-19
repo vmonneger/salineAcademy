@@ -24,5 +24,5 @@ export interface UserState {
   lastName: string
   email: string
   premium: boolean
-  role: string
+  role: 'TEACHER' | 'STUDENT' | 'USER'
 }
