@@ -7,7 +7,7 @@ import { useTeacherStore } from 'stores/teacher'
 import { useUserStore } from 'stores/user'
 import { useQueryState } from 'src/composable/useQueryState'
 import FormCourse from 'src/features/course/FormCourse.vue'
-import { AppHeading, AppButton, AppModalBig } from 'components'
+import { AppButton, AppModalBig, AppCard, AppText as txt, AppHeading as h, AppLink } from 'components'
 
 const userStore = useUserStore()
 const teacherStore = useTeacherStore()
@@ -25,9 +25,13 @@ const handleModalState = () => {
 }
 
 onMounted(async () => {
-  await isQueryFetched('queryCourses', async () => {
-    await teacherStore.queryCourses(userId.value)
-  })
+  try {
+    await isQueryFetched('queryCourses', async () => {
+      await teacherStore.queryCourses(userId.value)
+    })
+  } catch (error) {
+    console.error(error)
+  }
 })
 
 /**
@@ -49,7 +53,7 @@ const handleSubmit = async () => {
     <div class="col-12">
       <div class="row justify-between q-col-gutter-md">
         <div class="col-auto">
-          <AppHeading>Mes cours</AppHeading>
+          <h>Mes cours</h>
         </div>
 
         <div class="col-auto">
@@ -57,9 +61,17 @@ const handleSubmit = async () => {
         </div>
       </div>
     </div>
-    <div class="col-12">
-      <div v-for="course in courses" :key="course.id">
-        {{ course.titre }}
+    <div class="col-12 row q-col-gutter-md">
+      <div v-for="course in courses" :key="course.id" class="col-4">
+        <AppLink :to="{ name: 'Course', params: { courseId: course.id } }">
+          <AppCard class="cursor-pointer">
+            <h size="xs">{{ course.titre }}</h>
+            <txt>{{ course.description }}</txt>
+            <div v-for="(instrument, index) in course.instruments" :key="index">
+              <txt>{{ instrument }}</txt>
+            </div>
+          </AppCard>
+        </AppLink>
       </div>
     </div>
   </div>

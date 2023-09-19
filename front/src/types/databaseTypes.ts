@@ -20,8 +20,10 @@ export type School = {
 export type Course = {
   id?: number
   title?: string
+  titre?: string
   description?: string
   createdAt?: Date
   updatedAt?: Date
   userId?: number
+  instruments?: Array<string>
 }
