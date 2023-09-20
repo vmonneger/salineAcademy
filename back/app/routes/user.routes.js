@@ -1,11 +1,11 @@
-const { auth } = require('../middleware');
+const middleware = require('../middleware');
 const controller = require('../controllers/users/user.controller');
 
 module.exports = function(app) {
-    app.get('/users', [auth.isLoggedIn], controller.getAllUsers);
+    app.get('/users', [middleware.auth.isLoggedIn, middleware.role.checkRole(['ADMIN'])], controller.getAllUsers);
     
-    app.get('/user/current', [auth.isLoggedIn], controller.getCurrentUser);
+    app.get('/user/current', [middleware.auth.isLoggedIn], controller.getCurrentUser);
     
-    app.get('/user/:id', [auth.isLoggedIn, auth.isSameUser], controller.getUserById);
+    app.get('/user/:id', [middleware.auth.isLoggedIn, middleware.auth.isSameUser], controller.getUserById);
     
 }
