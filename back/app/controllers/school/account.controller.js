@@ -20,11 +20,10 @@ exports.signFromCsv = async (req, res) => {
             where: { name: req.body.schoolName }
         })
 
-        let school = null
+        let school = {}
 
         if (findSchool === null) {
-
-            console.log('<============> school not found <============>')
+            console.log('<============> Create school licence <============>')
             const licence = await Licence.create({ limit_date: limitDate })
 
             school = await licence.createSchool({ name: req.body.schoolName })
@@ -35,22 +34,26 @@ exports.signFromCsv = async (req, res) => {
             school.id = findSchool.id
         }
 
-        console.log('school =>', school)
+        const data = await School.findOne({
+            where: { id: school.id },
+            attributes: ['id', 'name'],
+            include: { model: Licence, attributes: ['id', 'limit_date']}
+        })
 
         let json = csvToJson.getJsonFromCsv(req.file.path)
         
         json.map( async (user) =>  {
             const role = await Role.findOne({ where: {name: user.Role}})
 
-            const characters = 'ABCD@E$F+I*UV&WXY@Z?jkl!mqrst%uvw=xy*z0123456789-';
+            const characters = 'AB"§àç-CD@E$F+I*UV&W%./+XY@Z?jkl!mqrst%uvw=xy*z0123456789-';
             let charactersLength = characters.length;
             let randString = ''
 
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 8; i++) {
                 randString += characters.charAt(Math.floor(Math.random() * charactersLength));
             }
 
-            const password = user.Nom + randString
+            const password = randString
 
             const [userFounded, createUser] = await User.findOrCreate({
                 where: { email: user.Email },
@@ -81,11 +84,71 @@ exports.signFromCsv = async (req, res) => {
             }
         })
             
-        return res.status(200).send({message: 'school info created successfully!'})
+        return res.status(200).send({message: 'school info created successfully!', school: data})
     
     } catch (error) {
         console.log(error)
-        res.status(500).send({ message: error })
+        res.status(500).send({ message: 'server error' })
     }
+}
 
+exports.getLicences = async (req, res) => {
+    try {
+        const licences = await Licence.findAll({
+            attributes: ['id', 'limit_date'],
+            include: { model: School, attributes: ['id', 'name'] }
+        })
+    
+        res.status(200).send({licences: licences})
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({ message: 'server error' })
+    }
+}
+
+exports.getlicence = async (req, res) => {
+    try {
+        const licence = await Licence.findByPk(req.body.id, {
+            attributes: ['id', 'limit_date'],
+            include: {model: School, attributes: ['id', 'name']}
+        })
+
+        if(licence === null) {
+            return res.status(400).send({ message: 'licence not found' })
+        }
+
+        res.status(200).send({licence: licence })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({ message: 'server error' })
+    }
+}
+
+exports.updateLicence = async (req, res) => {
+    console.log('<================> upddateLicence <================>')
+    try {
+        const newDate = new Date();
+        newDate.setFullYear(newDate.getFullYear() + 1);
+
+        const previousLicence = await Licence.findByPk(req.body.id, {
+            attributes: ['id', 'limit_date'],
+            include: {model: School, attributes: ['id', 'name']}
+        })
+
+        if(previousLicence === null) {
+            return res.status(400).send({ message: 'licence not found' })
+        }
+
+        previousLicence.update({ limit_date: newDate })
+
+        previousLicence.save()
+
+        res.status(200).send({ message: 'licence updated', licence: previousLicence })
+        
+    } catch (error) {
+        console.log(error)
+        res.status(400).send({ message: 'sever error' })
+    }
 }
