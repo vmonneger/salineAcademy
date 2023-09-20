@@ -5,5 +5,6 @@ module.exports = {
     instances: 'max',
     autorestart: true, 
     watch: true,
+    ignore_watch: ['uploads'],
   }]
 };

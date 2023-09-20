@@ -2,18 +2,32 @@
 /**
  * @file Index page.
  */
-import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import TheFilterVideos from 'src/features/catalog/TheFilterVideos.vue'
-import { AppInput, AppHeading, AppCardVideo, AppTag } from 'components'
+import { useQueryState } from 'src/composable/useQueryState'
+import { useVideoStore } from 'stores/video'
+import { Video } from 'stores/video/types'
+import { AppHeading, AppCardVideo, AppText as txt } from 'components'
 
-const videoFilters = ref([] as string[])
+const videoStore = useVideoStore()
+const { isQueryFetched } = useQueryState()
 
-const handleVideoFilters = (filtersArray: Array<string>) => {
-  videoFilters.value = filtersArray
-}
+const videos = ref([] as Array<Video>)
 
-const handleTagFilters = (filterTag: string) => {
-  return (videoFilters.value = videoFilters.value.filter((filter) => filter !== filterTag))
+const videosStore = computed(() => videoStore.videos)
+
+onMounted(async () => {
+  try {
+    await isQueryFetched('getVideos', async () => {
+      await videoStore.getVideos()
+    })
+  } catch (error) {
+    console.error(error)
+  }
+})
+
+const getVideoFiltered = (videosFiltered: Array<Video>) => {
+  videos.value = videosFiltered
 }
 </script>
 
@@ -22,29 +36,20 @@ const handleTagFilters = (filterTag: string) => {
     <div class="col-12">
       <AppHeading>Catalogue des masterclass</AppHeading>
     </div>
-    <div class="col-12 col-sm-6">
-      <AppInput
-        size="lg"
-        placeholder="Rechercher un professeur, un compositeur, un instrument, un morceau"
-        iconRight="sym_s_search"
-      />
-    </div>
-    <div class="col-12 col-sm-4 col-md-auto">
-      <TheFilterVideos v-model="videoFilters" @filters="handleVideoFilters" style="width: 100%" />
-    </div>
-    <div v-if="videoFilters.length" class="col-12 row q-gutter-md">
-      <div v-for="filter in videoFilters" :key="filter">
-        <AppTag @delete-tag="handleTagFilters(filter)">{{ filter }}</AppTag>
-      </div>
+    <div class="col-12">
+      <TheFilterVideos @videosFiltered="getVideoFiltered" :videos="videosStore" style="width: 100%" />
     </div>
     <div class="col-12 row">
-      <div class="col-12 col-sm-4 col-md-3" v-for="(item, index) in ['1', '2', '3', '4', '5', '6']" :key="index">
+      <div v-if="!videos.length" class="row justify-center q-mt-xl">
+        <txt size="lg" color="neutral">Aucune vidéo n'a été trouvée</txt>
+      </div>
+      <div class="col-12 col-sm-4 col-md-3" v-for="(video, index) in videos" :key="index">
         <AppCardVideo
-          image="https://images.unsplash.com/photo-1497032205916-ac775f0649ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-          badgeName="Le badge"
-          :title="`Le titre - ${item}`"
-          subtitle="Le sous titre"
-          description="La description qui est ceci cela La description qui est ceci cela La description qui est ceci cela La description qui est ceci cela La description qui est ceci cela"
+          :image="video.url"
+          :badgeName="video.format.name"
+          :title="video.title"
+          :langues="video.langues"
+          :description="video.description"
         />
       </div>
     </div>

@@ -36,6 +36,7 @@ export default boot(({ app, router }) => {
       if (401 === error.response?.status) {
         router.push({ name: 'Logout' })
       }
+      return Promise.reject(error)
     }
   )
   // for use inside Vue files (Options API) through this.$axios and this.$api

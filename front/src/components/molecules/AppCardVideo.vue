@@ -11,7 +11,7 @@ interface AppCardProps {
   image?: string
   badgeName?: string
   title?: string
-  subtitle?: string
+  langues?: Array<{ name: string }>
   description?: string
 }
 
@@ -23,8 +23,8 @@ const props = withDefaults(defineProps<AppCardProps>(), {
 
 <template>
   <q-card
-    class="app-card-video"
-    :class="`${props.fit ? 'fit' : ''} 
+    class="app-card-video cursor-pointer"
+    :class="`${props.fit ? 'fit' : ''}
     ${props.noPadding ? '' : $slots.title ? '' : props.padding}`"
   >
     <div>
@@ -34,8 +34,8 @@ const props = withDefaults(defineProps<AppCardProps>(), {
       <div class="q-pb-sm q-pt-md">
         <txt class="no-margin" weight="semibold">{{ props.title }}</txt>
       </div>
-      <div>
-        <txt class="no-margin q-pb-sm" size="sm" color="secondary">{{ props.subtitle }}</txt>
+      <div v-for="(langue, index) in props.langues" :key="index">
+        <txt class="no-margin q-pb-sm" size="sm" color="secondary">{{ langue.name }}</txt>
       </div>
       <div class="text-description" style="overflow: ellipsis; text-overflow: ellips">
         <txt class="no-margin" size="xs">{{ props.description }}</txt>

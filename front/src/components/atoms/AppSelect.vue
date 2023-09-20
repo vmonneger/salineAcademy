@@ -11,7 +11,7 @@ interface Select {
 }
 
 interface SelectProps {
-  modelValue?: Select | string | number
+  modelValue?: Select | string | number | Array<any>
   label?: string
   name?: string
   icon?: string
@@ -75,49 +75,6 @@ watchEffect(() => {
       outlined
       dense
     >
-      <template v-slot:prepend v-if="props.icon">
-        <q-icon v-show="props.icon" :name="props.icon" color="primary" />
-      </template>
-
-      <template v-slot:prepend v-else-if="props.avatar">
-        <q-img v-show="props.avatar" :src="props.avatar" />
-      </template>
-
-      <template v-slot:selected>
-        <template v-if="displayPlaceholder">
-          <span class="app-select-placeholder">{{ props.placeholder }}</span>
-        </template>
-        <template v-if="props.modelValue?.hasOwnProperty(props.emitOption)">
-          {{ props.modelValue[props.emitOption] as Select }}
-        </template>
-        <template v-else-if="props.modelValue">
-          {{ props.modelValue }}
-        </template>
-      </template>
-      <template v-slot:option="scope">
-        <q-item v-bind="scope.itemProps">
-          <q-item-section avatar v-if="scope.opt.icon">
-            <q-icon :name="scope.opt.icon" />
-          </q-item-section>
-          <q-item-section avatar v-if="scope.opt.avatar">
-            <q-img :src="scope.opt.icon" />
-          </q-item-section>
-          <q-item-section v-if="scope.opt.dialCode">
-            <q-item-label>
-              {{ scope.opt.label }} {{ scope.opt.dialCode ? `(+${scope.opt.dialCode})` : '' }}
-            </q-item-label>
-          </q-item-section>
-          <q-item-section v-else-if="scope.opt.label">
-            <q-item-label>{{ scope.opt.label }}</q-item-label>
-          </q-item-section>
-          <q-item-section v-if="scope.opt.name">
-            <q-item-label>{{ scope.opt.name }}</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item class="app-select-item-separator" v-if="scope.opt.optionOnTop">
-          <q-separator class="full-width" />
-        </q-item>
-      </template>
     </q-select>
   </div>
 </template>

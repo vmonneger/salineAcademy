@@ -30,13 +30,13 @@ const authMode = computed(() => (route.name === 'Register' ? 'register' : 'login
         </div>
         <FormAuth :authMode="authMode" />
         <div class="col-12 row q-gutter-x-sm justify-center">
-          <txt class="no-margin" color="neutral">{{
-            authMode === 'register' ? 'Vous avez déjà un compte ?' : "Vous n'avez pas de compte ?"
-          }}</txt>
-          <AppLink :to="{ name: authMode === 'register' ? 'Login' : 'Register' }">
-            <txt class="no-margin" color="accent" weight="semibold">{{
-              authMode === 'register' ? 'Connectez vous !' : 'Inscrivez vous !'
-            }}</txt>
+          <txt class="no-margin" color="neutral">
+            {{ authMode === 'register' ? 'Vous avez déjà un compte ?' : "Vous n'avez pas de compte ?" }}
+          </txt>
+          <AppLink :to="{ name: authMode === 'register' ? 'Login' : 'Register' }" data-cy="redirect-auth">
+            <txt class="no-margin" color="accent" weight="semibold">
+              {{ authMode === 'register' ? 'Connectez vous !' : 'Inscrivez vous !' }}
+            </txt>
           </AppLink>
         </div>
       </div>

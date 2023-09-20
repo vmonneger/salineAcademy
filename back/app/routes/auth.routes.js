@@ -8,6 +8,6 @@ module.exports = function(app) {
 
     // A voir si on doit supprimer
     app.get('/auth/check-auth', controller.checkAuth);
-
-    app.post('auth/update-password', [auth.isLoggedIn], controller.updatePassword);
+  
+    app.post('/auth/update-password', [auth.isLoggedIn], controller.updatePassword);
 };

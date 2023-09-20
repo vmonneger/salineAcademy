@@ -2,18 +2,28 @@
  * @file All the navigation links.
  */
 
-import { SidebarPosition } from 'src/types/enum'
+import { SidebarPosition, Role } from 'src/types/enum'
 
 export const SIDEBAR_ARCHITECTURE = [
   {
     position: SidebarPosition.Top,
-    role: 'STUDENT',
-    links: ['Catalog'],
+    links: ['Catalog', 'CoursesTeacher', 'CoursesStudent', 'License'],
   },
-  { position: SidebarPosition.Dropdown, role: 'STUDENT', links: ['Profil', 'Logout'] },
+  { position: SidebarPosition.Dropdown, links: ['Profile', 'Logout'] },
 ]
 
 export const ALL_SIDEBAR_LINKS = new Map([
+  [
+    'License',
+    {
+      label: 'Les Licences',
+      link: 'License',
+      role: {
+        [Role.Admin]: Role.Admin,
+      },
+      icon: 'sym_s_workspace_premium',
+    },
+  ],
   [
     'Catalog',
     {
@@ -23,10 +33,32 @@ export const ALL_SIDEBAR_LINKS = new Map([
     },
   ],
   [
-    'Profil',
+    'CoursesTeacher',
+    {
+      label: 'Mes cours',
+      link: 'CoursesTeacher',
+      role: {
+        [Role.Teacher]: Role.Teacher,
+      },
+      icon: 'sym_s_school',
+    },
+  ],
+  [
+    'CoursesStudent',
+    {
+      label: 'Mes cours',
+      link: 'CoursesStudent',
+      role: {
+        [Role.Student]: Role.Student,
+      },
+      icon: 'sym_s_school',
+    },
+  ],
+  [
+    'Profile',
     {
       label: 'Profil',
-      link: 'Profil',
+      link: 'Profile',
       icon: 'sym_s_person',
     },
   ],
