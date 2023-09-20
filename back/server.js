@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require('cookie-parser');
+const morgan = require("morgan");
 const db = require("./app/models");
 const session = require('express-session');
 const { createClient } = require('redis');
@@ -10,8 +11,10 @@ const dbInit = require('./app/config/initDb')
 
 const app = express();
 
+app.use(morgan('short'));
+
 app.use(cors({
-    origin: "https://salinehetic.tech",
+    origin: ["https://salinehetic.tech", 'http://localhost:9000'],
     credentials: true
 }));
 app.use(express.json());
@@ -51,16 +54,12 @@ if (process.env.NODE_ENV !== 'DEV') {
 app.use(session(sess));
 
 const initRoles = async () => {
-
-    console.log('<=======================> initRoles <=======================>')
     
     try {
         const roles = dbInit.roles;
         
         for (let index = 0; index < roles.length; index++) {
             const data = roles[index];
-
-            console.log('roles =>', data)
             
             const [roleFounded, roleCreated] = await db.role.findOrCreate({
                 where: {name: data.name} ,
@@ -75,15 +74,11 @@ const initRoles = async () => {
 }
 
 const initVideos = async () => {
-    console.log('<=======================> initVideos <=======================>')
-
     const videos = dbInit.videos;
 
     try {
         for (let index = 0; index < videos.length; index++) {
             const data = videos[index];
-
-            console.log('video =>', data.title)
             
             const [video, videoCreated] = await db.video.findOrCreate({ 
                 where: { url: data.url, title: data.title, description: data.description },
@@ -115,7 +110,6 @@ const initVideos = async () => {
 }
 
 const initUsers = async () => {
-    console.log('<=======================> initUsers <=======================>')
 
     const users = dbInit.users;
 
