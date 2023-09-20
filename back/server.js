@@ -11,7 +11,7 @@ const dbInit = require('./app/config/initDb')
 const app = express();
 
 app.use(cors({
-    origin: "https://salinehetic.tech",
+    origin: ["https://salinehetic.tech", "http://localhost:9000"],
     credentials: true
 }));
 app.use(express.json());
