@@ -5,10 +5,11 @@ const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 
 module.exports = function(app) {
-    app.post('/school/signup', [upload.single('csv')], controller.signFromCsv);
+    app.post('/school/signup', [middleware.auth.isLoggedIn, middleware.role.checkRole(['ADMIN']) ,upload.single('csv')], controller.signFromCsv);
     
-    app.get('/licences', controller.getLicences);
+    app.get('/licences', [middleware.auth.isLoggedIn, middleware.role.checkRole(['ADMIN'])], controller.getLicences);
 
-    app.put('/licence', controller.updateLicence);
+    app.put('/licence', [middleware.auth.isLoggedIn, middleware.role.checkRole(['ADMIN'])], controller.updateLicence);
 
+    app.delete('/licence', [middleware.auth.isLoggedIn, middleware.role.checkRole(['ADMIN'])], controller.deleteLicence);
 }

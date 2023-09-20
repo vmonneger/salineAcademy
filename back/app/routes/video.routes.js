@@ -6,5 +6,5 @@ module.exports = function(app) {
 
     app.get('/video', [middleware.auth.isLoggedIn], controller.getVideo)
 
-    app.post('/video', [middleware.auth.isLoggedIn],controller.CreateVideo)
+    app.post('/video', [middleware.auth.isLoggedIn, middleware.role.checkRole(['ADMIN'])],controller.CreateVideo)
 }

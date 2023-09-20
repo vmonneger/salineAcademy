@@ -60,14 +60,15 @@ db.role.hasMany(db.users, {as: "users"})
 db.users.belongsTo(db.abonnement);
 db.users.belongsTo(db.role);
 db.users.belongsTo(db.school);
+db.users.hasMany(db.cours);
 
 // Licence_mail's relations
 db.licence_mail.belongsTo(db.licence)
 
 // School's relations
-db.licence.hasOne(db.school)
+db.licence.hasOne(db.school, { onDelete: 'CASCADE' })
 db.school.belongsTo(db.licence)
-db.school.hasMany(db.users)
+db.school.hasMany(db.users, { onDelete: 'SET NULL' })
 
 // Video's relations
 db.video.hasMany(db.langue)
