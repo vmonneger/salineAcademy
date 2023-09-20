@@ -96,7 +96,9 @@ exports.logout = (req, res) => {
 };
 
 exports.checkAuth = (req, res) => {
-    if (req.session.userId) {
+    if (req.session) {
+        if (req.session.userId)
+        
         console.log('is authenticated')
         res.status(200).send({ isAuthenticated: true });
     } else {
