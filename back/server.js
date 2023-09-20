@@ -11,7 +11,7 @@ const dbInit = require('./app/config/initDb')
 const app = express();
 
 app.use(cors({
-    origin: ["https://salinehetic.tech", "http://localhost:9000"],
+    origin: "https://salinehetic.tech",
     credentials: true
 }));
 app.use(express.json());
@@ -147,7 +147,7 @@ const initUsers = async () => {
 }
 
 const retrySync = () => {
-    db.sequelize.sync({alter: true})
+    db.sequelize.sync()
         .then(() => {
             initRoles()
                 .then (() => {
