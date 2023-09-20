@@ -8,7 +8,11 @@ module.exports = function(app) {
 
     app.get('/teacher/cours', [middleware.auth.isLoggedIn, middleware.role.checkRole(['ADMIN', 'TEACHER'])], controller.getCoursFromTeacher);
 
+    app.get('/teacher/one-cours', controller.getOneCoursFromTeacher);
+
     app.get('/student/cours', [middleware.auth.isLoggedIn, middleware.role.checkRole(['ADMIN', 'STUDENT'])], controller.getCoursFromStudent);
+
+    app.get('/student/one-cours', controller.getOneCoursFromStudent);
 
     app.put('/cours', [middleware.auth.isLoggedIn, middleware.role.checkRole(['ADMIN', 'TEACHER'])], controller.updateCours);
 
