@@ -152,3 +152,47 @@ exports.updateLicence = async (req, res) => {
         res.status(400).send({ message: 'sever error' })
     }
 }
+
+exports.deleteLicence = async (req, res) => {
+    try {
+        const licence = await Licence.findByPk(req.body.licenceId,{
+            include: { model: db.school, include: {model: db.users, include: {model: db.cours}} }
+        })
+        
+        const school = licence.school;
+        const users = school.users;
+
+
+        Licence.destroy({
+            where: { id: licence.id }
+        })
+
+        for (let index = 0; index < users.length; index++) {
+            const user = users[index];
+            
+            if (user.cours.length > 0) {
+
+                db.cours.destroy({
+                    where: {userId: user.id}
+                })
+            }
+            
+            mailData.to = user.email
+            mailData.subject = "Fin de votre license scolaire"
+            mailData.html = `<b>${user.first_name} </b> <br></br> <br> Votre license vient de se terminer... <br/> Vous pouvez tout de même profiter de notre version gratuite !`
+            
+            transporter.sendMail(mailData, function(error, info){
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                }
+            });
+        }
+
+        res.status(200).send({ message: 'licence deleted'})
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+}
