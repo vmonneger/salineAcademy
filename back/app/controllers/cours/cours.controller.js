@@ -53,6 +53,30 @@ exports.createCour = async (req, res) => {
     }
 }
 
+exports.getOneCoursFromTeacher = async (req, res) => {
+    console.log('<=================> GetOneCoursFromTeacher <==================>');
+
+    try {
+        const cours  = await Cours.findByPk(req.query.coursId, {
+            include: [
+                { model: db.cours_student, attributes: ['id'], include: {model: db.users, attributes: [['first_name', 'StudentFirstName'], ['last_name', 'studentLastName'], ['id', 'studentId']]} },
+                { model: db.cours_video, attributes: ['id'], include: { model: db.video, attributes: { exclude: ['createdAt', 'updatedAt'] }}},
+            ],
+            attributes: ['id', 'titre', 'description']
+        })
+        
+        if(cours.length === 0 ) {
+            return res.status(404).send({ message: 'cours not found' })
+        } 
+
+        res.status(200).send({cours: cours})
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ message: error })
+    }
+}
+
+
 exports.getCoursFromTeacher = async (req, res) => {
     console.log('<=================> GetCoursFromTeacher <==================>');
 
@@ -150,6 +174,30 @@ exports.getCoursFromStudent = async (req, res) => {
     }
 }
 
+exports.getOneCoursFromStudent = async (req, res) => {
+    console.log('<=================> GetOneCoursFromStudent <==================>');
+
+    try {
+        const cours  = await Cours.findByPk(req.query.coursId, {
+            include: [
+                { model: db.users, attributes: ['id', 'first_name', 'last_name']},
+                { model: db.cours_video, attributes: ['id'], include: { model: db.video, attributes: { exclude: ['createdAt', 'updatedAt'] }}},
+            ],
+            attributes: ['id', 'titre', 'description']
+        })
+        
+        if(cours.length === 0 ) {
+            return res.status(404).send({ message: 'cours not found' })
+        } 
+
+        res.status(200).send({cours: cours})
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ message: error })
+    }
+
+}
+
 exports.getSchoolStudents = async (req, res) => {
     console.log('<=================> GetSchoolStudents <==================>');
     try {
@@ -199,6 +247,8 @@ exports.updateCours = async (req, res) => {
 
             
             const videosToDelete = previousVideos.filter((data) => newVideos.find((element) => element === data.videoId) === undefined)
+
+            // Suppression de videos
             
             if (videosToDelete.length > 0) {
                 console.log("removing videos...")
@@ -227,6 +277,8 @@ exports.updateCours = async (req, res) => {
                 
                 console.log('videos removed successfully !')
             }
+
+            //Ajout de videos
     
             const videosToAdd = newVideos.filter((data) => previousVideos.find((element) => element.videoId === data) === undefined)
 
@@ -261,6 +313,8 @@ exports.updateCours = async (req, res) => {
                 console.log('videos added successfully !')
             }
         }
+
+        //Modification des etudiants du cours
 
         if(req.body.students) {
 
@@ -307,6 +361,8 @@ exports.updateCours = async (req, res) => {
             }
 
         }
+
+        // Modification du titre et de la description
         
         if(req.body.description) {
             await Cours.update({ description: req.body.description }, { where: {id: req.body.coursId} })
@@ -320,7 +376,16 @@ exports.updateCours = async (req, res) => {
             console.log('titre updated')
         }
 
-        res.status(200).send({message: 'Cours updated successfully'})
+        const coursUpdated  = await Cours.findByPk(req.query.coursId, {
+            include: [
+                { model: db.users, attributes: ['id', 'first_name', 'last_name']},
+                { model: db.cours_student, attributes: ['id'], include: {model: db.users, attributes: [['first_name', 'StudentFirstName'], ['last_name', 'studentLastName'], ['id', 'studentId']]} },
+                { model: db.cours_video, attributes: ['id'], include: { model: db.video, attributes: { exclude: ['createdAt', 'updatedAt'] }}},
+            ],
+            attributes: ['id', 'titre', 'description']
+        })
+
+        res.status(200).send({message: 'Cours updated successfully', cours: coursUpdated})
 
     } catch (error) {
         console.log(error)
@@ -341,9 +406,9 @@ exports.deleteCours = async (req, res) => {
         await cours.destroy({ where: {id: req.body.coursId} })
 
         res.status(200).send({message: 'cours deleted successfully'})
+
     } catch (error) {
         console.log(error);
-
         res.status(500).send({error})
     }
 }
