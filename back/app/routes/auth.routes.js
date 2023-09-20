@@ -1,11 +1,13 @@
-const { verifySignUp } = require('../middleware');
-const { auth } = require('../middleware');
+const { verifySignUp, auth } = require('../middleware');
 const controller = require('../controllers/auth/auth.controller');
 
 module.exports = function(app) {
     app.post('/auth/signup', [verifySignUp.checkDuplicateEmail], controller.signUp);
     app.post('/auth/signin', controller.signIn);
     app.post('/auth/logout', controller.logout);
+
+    // A voir si on doit supprimer
     app.get('/auth/check-auth', controller.checkAuth);
+
     app.post('auth/update-password', [auth.isLoggedIn], controller.updatePassword);
 };
